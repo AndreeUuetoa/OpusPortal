@@ -1,0 +1,15 @@
+using Base.DAL.Contracts;
+using Domain.Concerts;
+
+namespace App.DAL.Contracts.Repositories.Concerts;
+
+public interface IAppUserAtConcertRepository : IBaseRepository<AppUserAtConcert>,
+    IAppUserAtConcertRepositoryCustom<AppUserAtConcert>
+{
+    
+}
+
+public interface IAppUserAtConcertRepositoryCustom<TEntity>
+{
+    
+}
