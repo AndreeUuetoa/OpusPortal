@@ -5,5 +5,5 @@ This project started out as a home project for one of the major courses in my cu
 Later I decided to make the source code public and continue working on it.
 
 The plan with this project is to create a timetable and concert management system for teachers and students at MUBA - Tallinn School of Music and Ballet.
-This git repository contains the source code for the backend of the application.
+This Git repository contains the source code for the backend of the application.
 The code for the frontend can be found here: https://github.com/andreeuuetoa/opusportal-front-react
