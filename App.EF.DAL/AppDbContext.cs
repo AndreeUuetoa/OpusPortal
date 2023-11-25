@@ -22,18 +22,6 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     public DbSet<Book> Book { get; set; } = default!;
     public DbSet<BookLentOut> BookLentOut { get; set; } = default!;
     
-    // Studying logic
-    // public DbSet<Class> Class { get; set; } = default!;
-    // public DbSet<ClassInRoom> ClassInRoom { get; set; } = default!;
-    // public DbSet<Curriculum> Curriculum { get; set; } = default!;
-    // public DbSet<PersonOnCurriculum> PersonOnCurriculum { get; set; } = default!;
-    // public DbSet<Room> Room { get; set; } = default!;
-    // public DbSet<Subject> Subject { get; set; } = default!;
-    // public DbSet<PersonOnSubject> PersonSubject { get; set; } = default!;
-    // public DbSet<SubjectInCurriculum> SubjectInCurriculum { get; set; } = default!;
-    // public DbSet<SubjectTeacher> SubjectTeacher { get; set; } = default!;
-    // public DbSet<TeacherInClass> TeacherInClass { get; set; } = default!;
-
     // Identity
     public DbSet<AppRole> AppRole { get; set; } = default!;
     public DbSet<AppUser> AppUser { get; set; } = default!;
