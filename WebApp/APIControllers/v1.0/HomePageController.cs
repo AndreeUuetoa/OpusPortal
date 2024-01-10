@@ -16,19 +16,11 @@ public class HomePageController : ControllerBase
     [HttpGet]
     public ObjectResult GetAppNameAndVersion()
     {
-        var information = new AppInformation();
+        var information = new
+        {
+            Name = "OpusPortal",
+            Version = "v1.0"
+        };
         return Ok(information);
-    }
-}
-
-public class AppInformation
-{
-    public string Name { get; set; } = default!;
-    public string Version { get; set; } = default!;
-
-    public AppInformation()
-    {
-        Name = "OpusPortal";
-        Version = "v1.0";
     }
 }
