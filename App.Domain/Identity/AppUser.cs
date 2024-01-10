@@ -1,8 +1,6 @@
 using Base.Domain.Contracts;
-using Domain.Competitions;
 using Domain.Concerts;
 using Domain.Library;
-using Domain.Studying_logic;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Identity;
@@ -20,7 +18,6 @@ public class AppUser : IdentityUser<Guid>, IDomainEntityId
 
     public ICollection<BookLentOut>? BooksLentOut { get; set; }
     public ICollection<AppUserAtConcert>? AppUserAtConcerts { get; set; }
-    public ICollection<AppUserOnCurriculum>? AppUsersOnCurricula { get; set; }
     public ICollection<SubjectTeacher>? SubjectTeachers { get; set; }
 
     public ICollection<RefreshToken>? AppRefreshTokens { get; set; } 
