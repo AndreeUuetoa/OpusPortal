@@ -155,9 +155,6 @@ public class ConcertsController : ControllerBase
             return BadRequest();
         }
 
-        return CreatedAtAction(nameof(GetConcerts), new {
-            Version = HttpContext.GetRequestedApiVersion()?.ToString(),
-            id
-        }, removedConcert);
+        return Ok();
     }
 }
