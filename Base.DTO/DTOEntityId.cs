@@ -4,7 +4,7 @@ namespace Base.DTO;
 
 public class DTOEntityId : DTOEntityId<Guid>,  IDTOEntityId
 {
-    public override Guid Id { get; set; } = Guid.NewGuid();
+    public override Guid Id { get; set; }
 }
 
 
