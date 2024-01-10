@@ -6,6 +6,9 @@ using Public.DTO.v1._0.Concerts;
 
 namespace WebApp.APIControllers.v1._0;
 
+/// <summary>
+/// 
+/// </summary>
 [Route("api/[controller]")]
 [ApiController]
 public class AppUserAtConcertsController : ControllerBase
@@ -13,6 +16,11 @@ public class AppUserAtConcertsController : ControllerBase
     private readonly IAppBLL _bll;
     private readonly AppUserAtConcertMapper _mapper;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="bll"></param>
+    /// <param name="autoMapper"></param>
     public AppUserAtConcertsController(IAppBLL bll, IMapper autoMapper)
     {
         _bll = bll;
@@ -20,6 +28,11 @@ public class AppUserAtConcertsController : ControllerBase
     }
 
     // GET: api/Performance/5
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<ActionResult<Domain.Concerts.AppUserAtConcert>> GetAppUsersAtConcert(Guid id)
     {
@@ -37,6 +50,11 @@ public class AppUserAtConcertsController : ControllerBase
 
     // POST: api/Performance
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="appUserAtConcert"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<ActionResult<Domain.Concerts.AppUserAtConcert>> PostAppUserAtConcert(AppUserAtConcert appUserAtConcert)
     {
@@ -58,6 +76,12 @@ public class AppUserAtConcertsController : ControllerBase
 
     // PUT: api/Performance/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="appUserAtConcert"></param>
+    /// <returns></returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> PutAppUserAtConcert(Guid id, AppUserAtConcert appUserAtConcert)
     {
@@ -83,6 +107,11 @@ public class AppUserAtConcertsController : ControllerBase
     }
 
     // DELETE: api/Performance/5
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAppUserAtConcert(Guid id)
     {
