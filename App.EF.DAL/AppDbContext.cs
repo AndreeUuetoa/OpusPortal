@@ -16,7 +16,6 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     
     public DbSet<Concert> Concert { get; set; } = default!;
     public DbSet<AppUserAtConcert> AppUserAtConcert { get; set; } = default!;
-    public DbSet<Institution> Institution { get; set; } = default!;
     
     // Library
     public DbSet<Book> Book { get; set; } = default!;

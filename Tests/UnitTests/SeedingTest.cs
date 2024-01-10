@@ -27,13 +27,6 @@ public class SeedingTest : IDisposable
     {
         
     }
-
-    [Fact]
-    public async void TestSeedData()
-    {
-        await AppDataInit.SeedAppData(_ctx);
-        Assert.Equal(1, await _ctx.Institution.CountAsync());
-    }
     
     public void Dispose()
     {

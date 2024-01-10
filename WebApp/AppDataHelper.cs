@@ -41,12 +41,6 @@ public static class AppDataHelper
             await AppDataInit.MigrateDatabase(context);
         }
     
-        if (configuration.GetValue<bool>("DataInit:SeedData"))
-        {
-            logger.LogInformation("Seeding data");
-            await AppDataInit.SeedAppData(context);
-        }
-    
         if (configuration.GetValue<bool>("DataInit:SeedIdentity"))
         {
             logger.LogInformation("Seeding identity");

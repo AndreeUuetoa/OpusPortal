@@ -11,19 +11,6 @@ public static class AppDataInit
     {
         await context.Database.MigrateAsync();
     }
-    
-    public static async Task SeedAppData(AppDbContext context)
-    {
-        await context.Institution.AddAsync(
-            new Institution
-            {
-                Id = Guid.NewGuid(),
-                Name = "Tallinna Muusika- ja Balletikool",
-                Address = "Pärnu mnt 59, Tallinn 10135"
-            }
-        );
-        await context.SaveChangesAsync();
-    }
 
     public static async Task SeedIdentity(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
     {
