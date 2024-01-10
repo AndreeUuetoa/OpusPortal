@@ -20,7 +20,7 @@ public class HomePageTest : IClassFixture<CustomWebAppFactory<Program>>
     [Fact(DisplayName = "GET - check that the homepage loads")]
     public async Task TestHomePageLoads()
     {
-        var response = await _client.GetAsync("/");
+        var response = await _client.GetAsync("/api/v1.0");
 
         response.EnsureSuccessStatusCode();
         
