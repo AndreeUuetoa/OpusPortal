@@ -52,6 +52,11 @@ public static class AppDataInit
         if (user != null) return;
         
         var adminRole = await roleManager.FindByNameAsync("Admin");
+        if (adminRole == null)
+        {
+            throw new ApplicationException("Admin role has not been created.");
+        }
+        
         user = new AppUser
         {
             Id = userData.id,
