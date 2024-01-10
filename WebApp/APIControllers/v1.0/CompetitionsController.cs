@@ -1,9 +1,12 @@
+using App.BLL.Contracts;
 using App.DAL.Contracts;
 using Asp.Versioning;
-using Domain.Competitions;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Public.DTO.Mappers.Competitions;
+using Public.DTO.v1._0.Competitions;
 
 namespace WebApp.APIControllers.v1._0;
 
@@ -17,14 +20,18 @@ namespace WebApp.APIControllers.v1._0;
 public class CompetitionsController : ControllerBase
 {
     private readonly IAppUOW _uow;
+    private readonly IAppBLL _bll;
+    private readonly CompetitionMapper _mapper;
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="uow"></param>
-    public CompetitionsController(IAppUOW uow)
+    public CompetitionsController(IAppUOW uow, IAppBLL bll, IMapper autoMapper)
     {
         _uow = uow;
+        _bll = bll;
+        _mapper = new CompetitionMapper(autoMapper);
     }
 
     // GET: api/Competitions
@@ -35,9 +42,13 @@ public class CompetitionsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Competition>>> GetCompetitions()
     {
-        var competitions = await _uow.CompetitionRepository.All();
+        var competitions = await _bll.CompetitionService.All();
 
-        return Ok(competitions);
+        var res = competitions
+            .Select(c => _mapper.Map(c))
+            .ToList();
+
+        return Ok(res);
     }
 
     // GET: api/Competitions/5
@@ -49,14 +60,21 @@ public class CompetitionsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Competition>> GetCompetition(Guid id)
     {
-        var competition = await _uow.CompetitionRepository.Find(id);
+        var competition = await _bll.CompetitionService.Find(id);
 
         if (competition == null)
         {
             return NotFound();
         }
 
-        return competition;
+        var res = _mapper.Map(competition);
+
+        if (res == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(res);
     }
 
     // PUT: api/Competitions/5
@@ -75,7 +93,13 @@ public class CompetitionsController : ControllerBase
             return BadRequest();
         }
 
-        var updatedCompetition = await _uow.CompetitionRepository.UpdateById(id);
+        var bllCompetition = _mapper.Map(competition);
+        if (bllCompetition == null)
+        {
+            return BadRequest();
+        }
+
+        var updatedCompetition = await _bll.CompetitionService.UpdateById(id);
 
         if (updatedCompetition == null)
         {
@@ -99,7 +123,13 @@ public class CompetitionsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Competition>> PostCompetition(Competition competition)
     {
-        var addedCompetition = await _uow.CompetitionRepository.Add(competition);
+        var bllCompetition = _mapper.Map(competition);
+        if (bllCompetition == null)
+        {
+            return BadRequest();
+        }
+        
+        var addedCompetition = await _bll.CompetitionService.Add(bllCompetition);
 
         if (addedCompetition == null)
         {
@@ -121,16 +151,13 @@ public class CompetitionsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCompetition(Guid id)
     {
-        var removedCompetition = await _uow.CompetitionRepository.RemoveById(id);
+        var removedCompetition = await _bll.CompetitionService.RemoveById(id);
 
         if (removedCompetition == null)
         {
             return BadRequest();
         }
 
-        return CreatedAtAction(nameof(GetCompetition), new {
-            Version = HttpContext.GetRequestedApiVersion()?.ToString(),
-            id
-        }, removedCompetition);
+        return Ok();
     }
 }
