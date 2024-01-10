@@ -1,5 +1,4 @@
-﻿using App.DAL.Contracts.Repositories;
-using App.DAL.Contracts.Repositories.Concerts;
+﻿using App.DAL.Contracts.Repositories.Concerts;
 using Base;
 using Domain.Concerts;
 
