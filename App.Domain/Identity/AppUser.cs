@@ -18,7 +18,7 @@ public class AppUser : IdentityUser<Guid>, IDomainEntityId
 
     public ICollection<BookLentOut>? BooksLentOut { get; set; }
     public ICollection<AppUserAtConcert>? AppUserAtConcerts { get; set; }
-    public ICollection<SubjectTeacher>? SubjectTeachers { get; set; }
+    public ICollection<UserTeachingUser>? UserTeachingUsers { get; set; }
 
     public ICollection<RefreshToken>? AppRefreshTokens { get; set; } 
 }

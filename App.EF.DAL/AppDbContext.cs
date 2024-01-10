@@ -2,7 +2,6 @@
 using Domain.Concerts;
 using Domain.Identity;
 using Domain.Library;
-using Domain.Studying_logic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +23,7 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     // Identity
     public DbSet<AppRole> AppRole { get; set; } = default!;
     public DbSet<AppUser> AppUser { get; set; } = default!;
-    public DbSet<MajorTeacher> MajorTeachers { get; set; } = default!;
+    public DbSet<UserTeachingUser> MajorTeachers { get; set; } = default!;
     public DbSet<RefreshToken> AppRefreshTokens { get; set; } = default!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
