@@ -29,7 +29,7 @@ public class AppUserAtConcertsController : ControllerBase
 
     // GET: api/Performance/5
     /// <summary>
-    /// 
+    /// Get info about one person performing at a concert.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -51,7 +51,7 @@ public class AppUserAtConcertsController : ControllerBase
     // POST: api/Performance
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     /// <summary>
-    /// 
+    /// Set a user to perform at a concert.
     /// </summary>
     /// <param name="appUserAtConcert"></param>
     /// <returns></returns>
@@ -77,7 +77,7 @@ public class AppUserAtConcertsController : ControllerBase
     // PUT: api/Performance/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     /// <summary>
-    /// 
+    /// Edit a user's performance details.
     /// </summary>
     /// <param name="id"></param>
     /// <param name="appUserAtConcert"></param>
@@ -108,7 +108,7 @@ public class AppUserAtConcertsController : ControllerBase
 
     // DELETE: api/Performance/5
     /// <summary>
-    /// 
+    /// Remove a user from performing at a concert.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

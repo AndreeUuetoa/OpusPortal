@@ -34,7 +34,7 @@ public class ConcertsController : ControllerBase
 
     // GET: api/Concerts
     /// <summary>
-    /// 
+    /// Get all concerts users may perform at.
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -51,7 +51,7 @@ public class ConcertsController : ControllerBase
 
     // GET: api/Concerts/5
     /// <summary>
-    /// 
+    /// Get details about a concert with the specified ID.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -78,7 +78,7 @@ public class ConcertsController : ControllerBase
     // PUT: api/Concerts/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     /// <summary>
-    /// 
+    /// Edit a concert.
     /// </summary>
     /// <param name="id"></param>
     /// <param name="concert"></param>
@@ -114,7 +114,7 @@ public class ConcertsController : ControllerBase
     // POST: api/Concerts
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     /// <summary>
-    /// 
+    /// Add a concert.
     /// </summary>
     /// <param name="concert"></param>
     /// <returns></returns>
@@ -141,7 +141,7 @@ public class ConcertsController : ControllerBase
 
     // DELETE: api/Concerts/5
     /// <summary>
-    /// 
+    /// Remove a concert.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

@@ -108,7 +108,7 @@ public class AppUserInRoomController : ControllerBase
 
     // DELETE: api/AppUserInRoom/5
     /// <summary>
-    /// 
+    /// Delete room reservation.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

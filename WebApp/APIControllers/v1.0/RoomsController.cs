@@ -31,7 +31,7 @@ public class RoomsController : ControllerBase
 
     // GET: api/Rooms
     /// <summary>
-    /// 
+    /// Get all rooms users may reserve for practicing or studying.
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -48,7 +48,7 @@ public class RoomsController : ControllerBase
 
     // GET: api/Rooms/5
     /// <summary>
-    /// 
+    /// Get details about a room with the specified ID.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -75,7 +75,7 @@ public class RoomsController : ControllerBase
     // PUT: api/Rooms/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     /// <summary>
-    /// 
+    /// Edit a room.
     /// </summary>
     /// <param name="id"></param>
     /// <param name="room"></param>
@@ -111,7 +111,7 @@ public class RoomsController : ControllerBase
     // POST: api/Rooms
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     /// <summary>
-    /// 
+    /// Add a room.
     /// </summary>
     /// <param name="room"></param>
     /// <returns></returns>
@@ -138,7 +138,7 @@ public class RoomsController : ControllerBase
 
     // DELETE: api/Rooms/5
     /// <summary>
-    /// 
+    /// Remove a room.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

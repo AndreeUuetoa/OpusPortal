@@ -36,7 +36,7 @@ public class CompetitionsController : ControllerBase
 
     // GET: api/Competitions
     /// <summary>
-    /// 
+    /// Get all competitions users may participate in.
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -53,7 +53,7 @@ public class CompetitionsController : ControllerBase
 
     // GET: api/Competitions/5
     /// <summary>
-    /// 
+    /// Get details about a competition with the specified ID.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -80,7 +80,7 @@ public class CompetitionsController : ControllerBase
     // PUT: api/Competitions/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     /// <summary>
-    /// 
+    /// Edit a competition.
     /// </summary>
     /// <param name="id"></param>
     /// <param name="competition"></param>
@@ -116,7 +116,7 @@ public class CompetitionsController : ControllerBase
     // POST: api/Competitions
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     /// <summary>
-    /// 
+    /// Add a competition.
     /// </summary>
     /// <param name="competition"></param>
     /// <returns></returns>
@@ -144,7 +144,7 @@ public class CompetitionsController : ControllerBase
 
     // DELETE: api/Competitions/5
     /// <summary>
-    /// 
+    /// Remove a competition.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
