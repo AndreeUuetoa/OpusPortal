@@ -12,7 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.DAL", "Base.DAL\Base.D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{CD707F53-75D7-4489-B154-E77270093732}"
 	ProjectSection(SolutionItems) = preProject
-		OpusPortalERD.png = OpusPortalERD.png
 		Dockerfile = Dockerfile
 		.dockerignore = .dockerignore
 		docker-compose.yml = docker-compose.yml
