@@ -72,7 +72,7 @@ public class ConcertsController : ControllerBase
             return NotFound();
         }
 
-        return res;
+        return Ok(res);
     }
 
     // PUT: api/Concerts/5
