@@ -1,5 +1,4 @@
-﻿using Domain.Competitions;
-using Domain.Identity;
+﻿using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,8 +61,9 @@ public static class AppDataInit
             Id = userData.id,
             Email = userData.email,
             EmailConfirmed = true,
-            UserName = userData.userName,
-            AppRoleId = adminRole!.Id,
+            FirstName = userData.userName,
+            LastName = "",
+            AppRoleId = adminRole.Id,
             AppRole = adminRole,
             From = DateTime.UtcNow
         };
