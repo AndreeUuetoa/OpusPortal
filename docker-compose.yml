@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  opusportal-db:
+    container_name: opusportal-db
+    image: "postgres:15.2-bullseye"
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      # external:internal
+      - "5445:5432"
+    volumes:
+      - opusportal-db-postgres-volume:/Program Files/PostgreSQL/15/data
+
+volumes:
+  opusportal-db-postgres-volume:
