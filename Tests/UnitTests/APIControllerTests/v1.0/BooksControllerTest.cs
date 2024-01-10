@@ -65,8 +65,7 @@ public class BooksControllerTest
         var book = new Book
         {
             Title = "Ujedus ja väärikus",
-            Authors = "Dag Solstad",
-            YearReleased = 2010
+            Authors = "Dag Solstad"
         };
 
         var postBookResult = await controller.PostBook(book);
