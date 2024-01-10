@@ -10,8 +10,5 @@ public class Competition : DomainEntityId
     [MaxLength(256)]
     public string Name { get; set; } = default!;
 
-    public DateTime From { get; set; }
-    public DateTime Until { get; set; }
-
     public ICollection<Concert>? Concerts { get; set; }
 }
