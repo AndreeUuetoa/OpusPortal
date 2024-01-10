@@ -3,14 +3,17 @@ using App.BLL.Contracts.Services.Competitions;
 using App.BLL.Contracts.Services.Concerts;
 using App.BLL.Contracts.Services.Identity;
 using App.BLL.Contracts.Services.Library;
+using App.BLL.Contracts.Services.Rooms;
 using App.BLL.Mappers.Competitions;
 using App.BLL.Mappers.Concerts;
 using App.BLL.Mappers.Identity;
 using App.BLL.Mappers.Library;
+using App.BLL.Mappers.Rooms;
 using App.BLL.Services.Competitions;
 using App.BLL.Services.Concerts;
 using App.BLL.Services.Identity;
 using App.BLL.Services.Library;
+using App.BLL.Services.Rooms;
 using App.DAL.Contracts;
 using AutoMapper;
 using Base.BLL;
@@ -33,6 +36,9 @@ public class AppBLL : BaseBLL<IAppUOW>, IAppBLL
     private ICompetitionService? _competitionService;
     private IJuryService? _juryService;
 
+    private IAppUserInRoomService? _appUserInRoomService;
+    private IRoomService? _roomService;
+
     public AppBLL(IAppUOW uow, IMapper mapper) : base(uow)
     {
         _mapper = mapper;
@@ -48,4 +54,7 @@ public class AppBLL : BaseBLL<IAppUOW>, IAppBLL
     
     public ICompetitionService CompetitionService => _competitionService ??= new CompetitionService(Uow, new CompetitionMapper(_mapper));
     public IJuryService JuryService => _juryService ??= new JuryService(Uow, new JuryMemberMapper(_mapper));
+
+    public IAppUserInRoomService AppUserInRoomService => _appUserInRoomService ??= new AppUserInRoomService(Uow, new AppUserInRoomMapper(_mapper));
+    public IRoomService RoomService => _roomService ??= new RoomService(Uow, new RoomMapper(_mapper));
 }

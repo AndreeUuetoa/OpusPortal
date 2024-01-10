@@ -2,6 +2,7 @@
 using Domain.Concerts;
 using Domain.Identity;
 using Domain.Library;
+using Domain.Rooms;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,10 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     // Library
     public DbSet<Book> Book { get; set; } = default!;
     public DbSet<BookLentOut> BookLentOut { get; set; } = default!;
+    
+    // Rooms
+    public DbSet<Room> Room { get; set; } = default!;
+    public DbSet<AppUserInRoom> AppUserInRoom { get; set; } = default!;
     
     // Identity
     public DbSet<AppRole> AppRole { get; set; } = default!;
