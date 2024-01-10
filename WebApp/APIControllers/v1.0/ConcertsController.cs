@@ -95,7 +95,7 @@ public class ConcertsController : ControllerBase
 
         if (bllConcert == null)
         {
-            return NotFound();
+            return BadRequest();
         }
         var updatedConcert = await _bll.ConcertService.Update(bllConcert);
 
