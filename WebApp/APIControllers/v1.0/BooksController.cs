@@ -23,7 +23,7 @@ public class BooksController : ControllerBase
     private readonly BookMapper _mapper;
 
     /// <summary>
-    /// Create an instance of BooksController.
+    /// Create an instance of BooksController via dependency injection.
     /// </summary>
     /// <param name="bll"></param>
     /// <param name="autoMapper"></param>
