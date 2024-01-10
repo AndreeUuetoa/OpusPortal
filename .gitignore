@@ -34,7 +34,5 @@ Desktop.ini
 .DS_Store
 OpusPortalERD.png
 
-docker-compose.yml
 Dockerfile
-appsettings.json
 appsettings.Development.json
