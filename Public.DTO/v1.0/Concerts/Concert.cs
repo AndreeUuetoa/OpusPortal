@@ -6,4 +6,6 @@ public class Concert : DTOEntityId
 {
     public string Name { get; set; } = default!;
     public string Location { get; set; } = default!;
+
+    public DateTime From { get; set; }
 }

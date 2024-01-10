@@ -18,7 +18,6 @@ public class Concert : DomainEntityId
     public string Location { get; set; } = default!;
 
     public DateTime From { get; set; }
-    public DateTime Until { get; set; }
 
     public ICollection<AppUserAtConcert>? AppUserAtConcerts { get; set; }
     public ICollection<JuryMember>? JuryMembers { get; set; }

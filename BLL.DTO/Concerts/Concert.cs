@@ -14,5 +14,4 @@ public class Concert : DTOEntityId
     public string Location { get; set; } = default!;
 
     public DateTime From { get; set; }
-    public DateTime Until { get; set; }
 }
