@@ -16,4 +16,9 @@ public class BookLentOutService : BaseEntityService<DomainBookLentOut, BLLBookLe
     {
         _uow = uow;
     }
+
+    public async Task<IEnumerable<BLLBookLentOut>> AllWithUserId(Guid id)
+    {
+        return (await _uow.BookLentOutRepository.AllWithUserId(id)).Select(e => Mapper.Map(e));
+    }
 }

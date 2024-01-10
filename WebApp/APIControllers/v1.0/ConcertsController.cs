@@ -1,9 +1,11 @@
-using App.DAL.Contracts;
+using App.BLL.Contracts;
 using Asp.Versioning;
-using Domain.Concerts;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Public.DTO.Mappers.Concerts;
+using Public.DTO.v1._0.Concerts;
 
 namespace WebApp.APIControllers.v1._0;
 
@@ -16,15 +18,18 @@ namespace WebApp.APIControllers.v1._0;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ConcertsController : ControllerBase
 {
-    private readonly IAppUOW _uow;
+    private readonly IAppBLL _bll;
+    private readonly ConcertMapper _mapper;
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="uow"></param>
-    public ConcertsController(IAppUOW uow)
+    /// <param name="bll"></param>
+    /// <param name="autoMapper"></param>
+    public ConcertsController(IAppBLL bll, IMapper autoMapper)
     {
-        _uow = uow;
+        _bll = bll;
+        _mapper = new ConcertMapper(autoMapper);
     }
 
     // GET: api/Concerts
@@ -35,9 +40,13 @@ public class ConcertsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Concert>>> GetConcerts()
     {
-        var concerts = await _uow.ConcertRepository.All();
+        var concerts = await _bll.ConcertService.All();
 
-        return Ok(concerts);
+        var res = concerts
+            .Select(c => _mapper.Map(c))
+            .ToList();
+
+        return Ok(res);
     }
 
     // GET: api/Concerts/5
@@ -49,14 +58,21 @@ public class ConcertsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Concert>> GetConcert(Guid id)
     {
-        var concert = await _uow.ConcertRepository.Find(id);
+        var concert = await _bll.ConcertService.Find(id);
 
         if (concert == null)
         {
             return NotFound();
         }
 
-        return concert;
+        var res = _mapper.Map(concert);
+
+        if (res == null)
+        {
+            return NotFound();
+        }
+
+        return res;
     }
 
     // PUT: api/Concerts/5
@@ -75,7 +91,13 @@ public class ConcertsController : ControllerBase
             return BadRequest();
         }
 
-        var updatedConcert = await _uow.ConcertRepository.UpdateById(id);
+        var bllConcert = _mapper.Map(concert);
+
+        if (bllConcert == null)
+        {
+            return NotFound();
+        }
+        var updatedConcert = await _bll.ConcertService.Update(bllConcert);
 
         if (updatedConcert == null)
         {
@@ -99,7 +121,12 @@ public class ConcertsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Concert>> PostConcert(Concert concert)
     {
-        var addedConcert = await _uow.ConcertRepository.Add(concert);
+        var bllConcert = _mapper.Map(concert);
+        if (bllConcert == null)
+        {
+            return NotFound();
+        }
+        var addedConcert = await _bll.ConcertService.Add(bllConcert);
 
         if (addedConcert == null)
         {
@@ -121,7 +148,7 @@ public class ConcertsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteConcert(Guid id)
     {
-        var removedConcert = await _uow.ConcertRepository.RemoveById(id);
+        var removedConcert = await _bll.ConcertService.RemoveById(id);
 
         if (removedConcert == null)
         {

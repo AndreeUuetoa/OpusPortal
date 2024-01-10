@@ -20,12 +20,12 @@ public class BookMapper : BaseMapper<DomainBook, BLLBook>
         };
     }
 
-    public override BLLBook Map(DomainBook? entity)
+    public override BLLBook Map(DomainBook? book)
     {
         return new BLLBook
         {
-            Title = entity?.Title ?? "",
-            Authors = entity?.Authors ?? ""
+            Title = book?.Title ?? "",
+            Authors = book?.Authors ?? ""
         };
     }
 }

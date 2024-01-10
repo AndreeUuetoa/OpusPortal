@@ -10,7 +10,6 @@ public class BookLentOut : DTOEntityId
     
     public Guid AppUserId { get; set; }
     public AppUser? AppUser { get; set; }
-    
-    public DateTime LentAt { get; set; }
-    public DateTime ReturnAt { get; set; }
+
+    public int Days { get; set; }
 }

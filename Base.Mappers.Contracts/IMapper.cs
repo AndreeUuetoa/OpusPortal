@@ -2,6 +2,6 @@
 
 public interface IMapper<TSource, TDestination>
 {
-    TSource? Map(TDestination? entity);
-    TDestination? Map(TSource? entity);
+    TSource? Map(TDestination? book);
+    TDestination? Map(TSource? book);
 }

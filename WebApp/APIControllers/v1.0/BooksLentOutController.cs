@@ -1,13 +1,10 @@
 using App.BLL.Contracts;
-using App.DAL.Contracts;
 using Asp.Versioning;
 using AutoMapper;
-using Base.Helpers;
-using BLL.DTO.Library;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Public.DTO.Mappers.Library;
+using Public.DTO.v1._0.Library;
 
 namespace WebApp.APIControllers.v1._0;
 
@@ -21,36 +18,20 @@ namespace WebApp.APIControllers.v1._0;
 [Route("api/v{version:apiVersion}/[controller]")]
 public class BooksLentOutController : ControllerBase
 {
-    private readonly IAppUOW _uow;
     private readonly IAppBLL _bll;
     private readonly BookLentOutMapper _mapper;
 
     /// <summary>
     /// Create an instance of the BooksLentOutController.
     /// </summary>
-    /// <param name="uow"></param>
     /// <param name="bll"></param>
     /// <param name="autoMapper"></param>
-    public BooksLentOutController(IAppUOW uow, IAppBLL bll, IMapper autoMapper)
+    public BooksLentOutController(IAppBLL bll, IMapper autoMapper)
     {
-        _uow = uow;
         _bll = bll;
         _mapper = new BookLentOutMapper(autoMapper);
     }
 
-    // GET: api/BooksLentOut
-    /// <summary>
-    /// Get all the books that have been lent out.
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<BookLentOut>>> GetBooksLentOut()
-    {
-        var booksLentOut = await _uow.BookLentOutRepository.All();
-
-        return Ok(booksLentOut);
-    }
-    
     // GET: api/BooksLentOut/5
     /// <summary>
     /// Get books lent out by user with the specified ID.
@@ -60,9 +41,39 @@ public class BooksLentOutController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<IEnumerable<BookLentOut>>> GetBooksLentOut(Guid id)
     {
-        var bookLentOut = await _uow.BookLentOutRepository.AllWithUserId(id);
+        var bllBooksLentOutWithUserId = await _bll.BookLentOutService.AllWithUserId(id);
 
-        return Ok(bookLentOut);
+        var res = bllBooksLentOutWithUserId
+            .Select(book => _mapper.Map(book))
+            .ToList();
+
+        return Ok(res);
+    }
+
+    // POST: api/BooksLentOut
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    /// <summary>
+    /// Lend out a book.
+    /// </summary>
+    /// <param name="bookLentOut"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<ActionResult<BookLentOut>> PostBookLentOut(BookLentOut bookLentOut)
+    {
+        var bllBookLentOut = _mapper.Map(bookLentOut);
+        if (bllBookLentOut == null)
+        {
+            return BadRequest();
+        }
+        
+        var addedBook = await _bll.BookLentOutService.Add(bllBookLentOut);
+
+        if (addedBook == null)
+        {
+            return BadRequest();
+        }
+
+        return CreatedAtAction("GetBooksLentOut", new { id = bookLentOut.Id }, bookLentOut);
     }
 
     // PUT: api/BooksLentOut/5
@@ -82,7 +93,13 @@ public class BooksLentOutController : ControllerBase
             return BadRequest();
         }
 
-        var updatedBookLentOut = await _uow.BookLentOutRepository.UpdateById(id);
+        var bllBookLentOut = _mapper.Map(bookLentOut);
+        if (bllBookLentOut == null)
+        {
+            return BadRequest();
+        }
+
+        var updatedBookLentOut = await _bll.BookLentOutService.Update(bllBookLentOut);
 
         if (updatedBookLentOut == null)
         {
@@ -90,29 +107,6 @@ public class BooksLentOutController : ControllerBase
         }
 
         return CreatedAtAction("GetBooksLentOut", new { id }, bookLentOut);
-    }
-
-    // POST: api/BooksLentOut
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    /// <summary>
-    /// Lend out a book.
-    /// </summary>
-    /// <param name="bookLentOut"></param>
-    /// <returns></returns>
-    [HttpPost]
-    public async Task<ActionResult<BookLentOut>> PostBookLentOut(BookLentOut bookLentOut)
-    {
-        bookLentOut.LentAt = DateTime.UtcNow;
-        bookLentOut.ReturnAt = DateTime.UtcNow.AddDays(28);
-        
-        var addedBook = await _bll.BookLentOutService.Add(bookLentOut);
-
-        if (addedBook == null)
-        {
-            return BadRequest();
-        }
-
-        return CreatedAtAction("GetBooksLentOut", new { id = bookLentOut.Id }, bookLentOut);
     }
 
     // DELETE: api/BooksLentOut/5
@@ -125,15 +119,15 @@ public class BooksLentOutController : ControllerBase
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteBookLentOut(Guid id)
     {
-        var returnedBookLentOut = await _uow.BookLentOutRepository.Find(id);
+        var returnedBookLentOut = await _bll.BookLentOutService.Find(id);
 
         if (returnedBookLentOut == null)
         {
             return BadRequest();
         }
 
-        await _uow.BookLentOutRepository.Remove(returnedBookLentOut);
+        await _bll.BookLentOutService.RemoveById(id);
         
-        return CreatedAtAction("GetBooksLentOut", new { id }, returnedBookLentOut);
+        return Ok();
     }
 }

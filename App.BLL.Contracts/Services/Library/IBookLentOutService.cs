@@ -8,5 +8,5 @@ namespace App.BLL.Contracts.Services.Library;
 /// </summary>
 public interface IBookLentOutService : IBaseEntityService<BookLentOut>
 {
-    
+    Task<IEnumerable<BookLentOut>> AllWithUserId(Guid id);
 }
