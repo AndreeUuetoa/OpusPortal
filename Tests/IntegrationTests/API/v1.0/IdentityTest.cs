@@ -33,7 +33,8 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
             Email = "test@app.com",
             Password = "a",
             FirstName = "Test",
-            LastName = "App"
+            LastName = "App",
+            AppRoleName = "Student"
         };
         var data = JsonContent.Create(registerData);
 
