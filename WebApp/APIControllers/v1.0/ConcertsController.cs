@@ -10,7 +10,7 @@ using Public.DTO.v1._0.Concerts;
 namespace WebApp.APIControllers.v1._0;
 
 /// <summary>
-/// 
+/// Add, edit and remove concerts that the MUBA students may participate in.
 /// </summary>
 [ApiVersion("1.0")]
 [ApiController]
