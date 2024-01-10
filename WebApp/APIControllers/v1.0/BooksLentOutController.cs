@@ -106,7 +106,7 @@ public class BooksLentOutController : ControllerBase
             return BadRequest();
         }
 
-        return CreatedAtAction("GetBooksLentOut", new { id }, bookLentOut);
+        return CreatedAtAction("GetBooksLentOut", new { id }, updatedBookLentOut);
     }
 
     // DELETE: api/BooksLentOut/5
