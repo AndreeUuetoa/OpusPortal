@@ -23,7 +23,7 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     // Identity
     public DbSet<AppRole> AppRole { get; set; } = default!;
     public DbSet<AppUser> AppUser { get; set; } = default!;
-    public DbSet<UserTeachingUser> MajorTeachers { get; set; } = default!;
+    public DbSet<UserTeachingUser> UserTeachingUsers { get; set; } = default!;
     public DbSet<RefreshToken> AppRefreshTokens { get; set; } = default!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
@@ -32,6 +32,10 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         // let the initial stuff run
         base.OnModelCreating(builder);
+
+        builder.Entity<AppUser>().HasMany(appUser => appUser.UserTeachingUsers);
+        builder.Entity<UserTeachingUser>().HasOne(userTeachingUser => userTeachingUser.Student);
+        builder.Entity<UserTeachingUser>().HasOne(userTeachingUser => userTeachingUser.Teacher);
         
         // disable cascade delete
         foreach (var foreignKey in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
