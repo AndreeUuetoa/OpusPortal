@@ -9,9 +9,6 @@ public class AppUser : DTOEntityId
     public Guid AppRoleId { get; set; }
     public AppRole? AppRole { get; set; }
 
-    public Guid? PersonId { get; set; }
-    public Person? Person { get; set; }
-
     public DateTime From { get; set; }
     public DateTime? Until { get; set; }
 }
