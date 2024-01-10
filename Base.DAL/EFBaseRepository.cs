@@ -29,7 +29,7 @@ public abstract class EFBaseRepository<TEntity, TKey, TDbContext> : IBaseReposit
     
     public virtual async Task<IEnumerable<TEntity>> All()
     {
-        return await RepositoryDbSet.AsNoTracking().ToListAsync();
+        return await RepositoryDbSet.ToListAsync();
     }
 
     public virtual async Task<TEntity?> Find(TKey id)
