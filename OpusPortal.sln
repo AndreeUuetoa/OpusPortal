@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionF
 		.gitignore = .gitignore
 		LICENSE = LICENSE
 		README.md = README.md
+		appsettings.json = appsettings.json
+		appsettings.Development.json = appsettings.Development.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{C8F0EAA0-DD55-4275-A91B-007193678818}"

@@ -36,3 +36,5 @@ OpusPortalERD.png
 
 docker-compose.yml
 Dockerfile
+appsettings.json
+appsettings.Development.json
