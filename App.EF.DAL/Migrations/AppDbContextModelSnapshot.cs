@@ -17,7 +17,7 @@ namespace DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -42,27 +42,6 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Competition");
-                });
-
-            modelBuilder.Entity("Domain.Competitions.Institution", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Institution");
                 });
 
             modelBuilder.Entity("Domain.Competitions.JuryMember", b =>
@@ -104,12 +83,6 @@ namespace DAL.Migrations
                     b.Property<Guid>("ConcertId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("From")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("Until")
-                        .HasColumnType("timestamp with time zone");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
@@ -131,8 +104,10 @@ namespace DAL.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("InstitutionId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -145,8 +120,6 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CompetitionId");
-
-                    b.HasIndex("InstitutionId");
 
                     b.ToTable("Concert");
                 });
@@ -204,14 +177,16 @@ namespace DAL.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<DateTime>("From")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -263,33 +238,6 @@ namespace DAL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Identity.MajorTeacher", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("Until")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("MajorTeachers");
-                });
-
             modelBuilder.Entity("Domain.Identity.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -319,6 +267,38 @@ namespace DAL.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("AppRefreshTokens");
+                });
+
+            modelBuilder.Entity("Domain.Identity.UserTeachingUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("Until")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("UserTeachingUsers");
                 });
 
             modelBuilder.Entity("Domain.Library.Book", b =>
@@ -369,89 +349,13 @@ namespace DAL.Migrations
                     b.ToTable("BookLentOut");
                 });
 
-            modelBuilder.Entity("Domain.Studying_logic.AppUserOnCurriculum", b =>
+            modelBuilder.Entity("Domain.Rooms.AppUserInRoom", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("AppUserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CurriculumId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("Until")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("CurriculumId");
-
-                    b.ToTable("AppUserOnCurriculum");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.AppUserOnSubject", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AppUserOnCurriculumId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("SubjectInCurriculumId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Until")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserOnCurriculumId");
-
-                    b.HasIndex("SubjectInCurriculumId");
-
-                    b.ToTable("AppUserOnSubject");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.Class", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("SubjectId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Until")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("Class");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.ClassInRoom", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ClassId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("From")
@@ -465,132 +369,27 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("ClassInRoom");
+                    b.ToTable("AppUserInRoom");
                 });
 
-            modelBuilder.Entity("Domain.Studying_logic.Curriculum", b =>
+            modelBuilder.Entity("Domain.Rooms.Room", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<string>("CurriculumCode")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<DateTime?>("Until")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Curriculum");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.Room", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
 
                     b.Property<string>("RoomNumber")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Room");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.Subject", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("SubjectCode")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Subject");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.SubjectInCurriculum", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CurriculumId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("SubjectId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("Until")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurriculumId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("SubjectInCurriculum");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.SubjectTeacher", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AppUserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("From")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("SubjectId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("Until")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("SubjectTeacher");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -741,15 +540,7 @@ namespace DAL.Migrations
                         .HasForeignKey("CompetitionId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Domain.Competitions.Institution", "Institution")
-                        .WithMany("Concerts")
-                        .HasForeignKey("InstitutionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Competition");
-
-                    b.Navigation("Institution");
                 });
 
             modelBuilder.Entity("Domain.Identity.AppUser", b =>
@@ -763,25 +554,6 @@ namespace DAL.Migrations
                     b.Navigation("AppRole");
                 });
 
-            modelBuilder.Entity("Domain.Identity.MajorTeacher", b =>
-                {
-                    b.HasOne("Domain.Studying_logic.AppUserOnCurriculum", "Student")
-                        .WithMany("MajorTeachers")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Studying_logic.SubjectTeacher", "Teacher")
-                        .WithMany("MajorTeachers")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Student");
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("Domain.Identity.RefreshToken", b =>
                 {
                     b.HasOne("Domain.Identity.AppUser", "AppUser")
@@ -791,6 +563,30 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Domain.Identity.UserTeachingUser", b =>
+                {
+                    b.HasOne("Domain.Identity.AppUser", null)
+                        .WithMany("UserTeachingUsers")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.Identity.AppUser", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Identity.AppUser", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("Domain.Library.BookLentOut", b =>
@@ -812,110 +608,23 @@ namespace DAL.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("Domain.Studying_logic.AppUserOnCurriculum", b =>
+            modelBuilder.Entity("Domain.Rooms.AppUserInRoom", b =>
                 {
                     b.HasOne("Domain.Identity.AppUser", "AppUser")
-                        .WithMany("AppUsersOnCurricula")
+                        .WithMany()
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Domain.Studying_logic.Curriculum", "Curriculum")
-                        .WithMany("AppUserOnCurricula")
-                        .HasForeignKey("CurriculumId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Curriculum");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.AppUserOnSubject", b =>
-                {
-                    b.HasOne("Domain.Studying_logic.AppUserOnCurriculum", "AppUserOnCurriculum")
-                        .WithMany("AppUserOnSubjects")
-                        .HasForeignKey("AppUserOnCurriculumId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Studying_logic.SubjectInCurriculum", "SubjectInCurriculum")
-                        .WithMany("AppUserOnSubjects")
-                        .HasForeignKey("SubjectInCurriculumId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("AppUserOnCurriculum");
-
-                    b.Navigation("SubjectInCurriculum");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.Class", b =>
-                {
-                    b.HasOne("Domain.Studying_logic.Subject", "Subject")
-                        .WithMany("Classes")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.ClassInRoom", b =>
-                {
-                    b.HasOne("Domain.Studying_logic.Class", "Class")
-                        .WithMany("ClassInRooms")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Studying_logic.Room", "Room")
-                        .WithMany("ClassInRooms")
+                    b.HasOne("Domain.Rooms.Room", "Room")
+                        .WithMany("AppUserInRooms")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Class");
-
-                    b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.SubjectInCurriculum", b =>
-                {
-                    b.HasOne("Domain.Studying_logic.Curriculum", "Curriculum")
-                        .WithMany("SubjectInCurricula")
-                        .HasForeignKey("CurriculumId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Studying_logic.Subject", "Subject")
-                        .WithMany("SubjectInCurricula")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Curriculum");
-
-                    b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.SubjectTeacher", b =>
-                {
-                    b.HasOne("Domain.Identity.AppUser", "AppUser")
-                        .WithMany("SubjectTeachers")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Studying_logic.Subject", "Subject")
-                        .WithMany("SubjectTeachers")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("AppUser");
 
-                    b.Navigation("Subject");
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -974,11 +683,6 @@ namespace DAL.Migrations
                     b.Navigation("Concerts");
                 });
 
-            modelBuilder.Entity("Domain.Competitions.Institution", b =>
-                {
-                    b.Navigation("Concerts");
-                });
-
             modelBuilder.Entity("Domain.Concerts.Concert", b =>
                 {
                     b.Navigation("AppUserAtConcerts");
@@ -997,11 +701,9 @@ namespace DAL.Migrations
 
                     b.Navigation("AppUserAtConcerts");
 
-                    b.Navigation("AppUsersOnCurricula");
-
                     b.Navigation("BooksLentOut");
 
-                    b.Navigation("SubjectTeachers");
+                    b.Navigation("UserTeachingUsers");
                 });
 
             modelBuilder.Entity("Domain.Library.Book", b =>
@@ -1009,47 +711,9 @@ namespace DAL.Migrations
                     b.Navigation("BooksLentOut");
                 });
 
-            modelBuilder.Entity("Domain.Studying_logic.AppUserOnCurriculum", b =>
+            modelBuilder.Entity("Domain.Rooms.Room", b =>
                 {
-                    b.Navigation("AppUserOnSubjects");
-
-                    b.Navigation("MajorTeachers");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.Class", b =>
-                {
-                    b.Navigation("ClassInRooms");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.Curriculum", b =>
-                {
-                    b.Navigation("AppUserOnCurricula");
-
-                    b.Navigation("SubjectInCurricula");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.Room", b =>
-                {
-                    b.Navigation("ClassInRooms");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.Subject", b =>
-                {
-                    b.Navigation("Classes");
-
-                    b.Navigation("SubjectInCurricula");
-
-                    b.Navigation("SubjectTeachers");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.SubjectInCurriculum", b =>
-                {
-                    b.Navigation("AppUserOnSubjects");
-                });
-
-            modelBuilder.Entity("Domain.Studying_logic.SubjectTeacher", b =>
-                {
-                    b.Navigation("MajorTeachers");
+                    b.Navigation("AppUserInRooms");
                 });
 #pragma warning restore 612, 618
         }
