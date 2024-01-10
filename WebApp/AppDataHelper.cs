@@ -44,7 +44,7 @@ public static class AppDataHelper
         if (configuration.GetValue<bool>("DataInit:SeedIdentity"))
         {
             logger.LogInformation("Seeding identity");
-            await AppDataInit.SeedIdentity(userManager, roleManager);
+            await AppDataInit.SeedIdentity(userManager, roleManager, context);
         }
     }
 }

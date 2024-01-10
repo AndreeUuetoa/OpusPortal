@@ -11,10 +11,11 @@ public static class AppDataInit
         await context.Database.MigrateAsync();
     }
 
-    public static async Task SeedIdentity(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+    public static async Task SeedIdentity(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, AppDbContext context)
     {
         await CreateRoles(roleManager);
         await CreateAdmin(userManager, roleManager);
+        await context.SaveChangesAsync();
     }
 
     private static async Task CreateRoles(RoleManager<AppRole> roleManager)
