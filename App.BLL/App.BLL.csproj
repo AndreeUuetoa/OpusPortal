@@ -14,8 +14,4 @@
       <ProjectReference Include="..\BLL.DTO\BLL.DTO.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\Studying logic\" />
-    </ItemGroup>
-
 </Project>
