@@ -16,4 +16,9 @@ public class AppUserAtConcertService : BaseEntityService<DomainAppUserAtConcert,
     {
         _uow = uow;
     }
+    
+    public async Task<IEnumerable<BLLAppUserAtConcert>> AllWithUserId(Guid id)
+    {
+        return (await _uow.AppUserAtConcertRepository.AllWithUserId(id)).Select(e => Mapper.Map(e));
+    }
 }

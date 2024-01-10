@@ -6,5 +6,5 @@ namespace App.BLL.Contracts.Services.Concerts;
 
 public interface IAppUserAtConcertService : IBaseEntityService<AppUserAtConcert>
 {
-    
+    Task<IEnumerable<AppUserAtConcert>> AllWithUserId(Guid id);
 }

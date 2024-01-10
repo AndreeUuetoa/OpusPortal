@@ -11,5 +11,5 @@ public interface IAppUserAtConcertRepository : IBaseRepository<AppUserAtConcert>
 
 public interface IAppUserAtConcertRepositoryCustom<TEntity>
 {
-    
+    Task<IEnumerable<TEntity>> AllWithUserId(Guid id);
 }

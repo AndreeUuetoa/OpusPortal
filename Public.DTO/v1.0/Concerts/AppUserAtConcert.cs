@@ -10,7 +10,4 @@ public class AppUserAtConcert : DTOEntityId
 
     public Guid ConcertId { get; set; }
     public Concert? Concert { get; set; }
-
-    public DateTime From { get; set; }
-    public DateTime Until { get; set; }
 }

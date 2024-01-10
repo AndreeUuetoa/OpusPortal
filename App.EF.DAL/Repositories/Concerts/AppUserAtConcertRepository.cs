@@ -1,4 +1,3 @@
-using App.DAL.Contracts.Repositories;
 using App.DAL.Contracts.Repositories.Concerts;
 using Base;
 using Domain.Concerts;
@@ -13,11 +12,12 @@ public class AppUserAtConcertRepository : EFBaseRepository<AppUserAtConcert, App
     {
     }
 
-    public override async Task<IEnumerable<AppUserAtConcert>> All()
+    public async Task<IEnumerable<AppUserAtConcert>> AllWithUserId(Guid id)
     {
         return await RepositoryDbSet
             .Include(i => i.Concert)
             .Include(i => i.AppUser)
+            .Where(appUser => appUser.AppUserId == id)
             .ToListAsync();
     }
 }
