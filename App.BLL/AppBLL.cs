@@ -2,17 +2,14 @@
 using App.BLL.Contracts.Services.Competitions;
 using App.BLL.Contracts.Services.Concerts;
 using App.BLL.Contracts.Services.Identity;
-using App.BLL.Contracts.Services.Institutions;
 using App.BLL.Contracts.Services.Library;
 using App.BLL.Mappers.Competitions;
 using App.BLL.Mappers.Concerts;
 using App.BLL.Mappers.Identity;
-using App.BLL.Mappers.Institutions;
 using App.BLL.Mappers.Library;
 using App.BLL.Services.Competitions;
 using App.BLL.Services.Concerts;
 using App.BLL.Services.Identity;
-using App.BLL.Services.Institutions;
 using App.BLL.Services.Library;
 using App.DAL.Contracts;
 using AutoMapper;
@@ -36,8 +33,6 @@ public class AppBLL : BaseBLL<IAppUOW>, IAppBLL
     private ICompetitionService? _competitionService;
     private IJuryService? _juryService;
 
-    private IInstitutionService? _institutionService;
-    
     public AppBLL(IAppUOW uow, IMapper mapper) : base(uow)
     {
         _mapper = mapper;
@@ -53,6 +48,4 @@ public class AppBLL : BaseBLL<IAppUOW>, IAppBLL
     
     public ICompetitionService CompetitionService => _competitionService ??= new CompetitionService(Uow, new CompetitionMapper(_mapper));
     public IJuryService JuryService => _juryService ??= new JuryService(Uow, new JuryMemberMapper(_mapper));
-
-    public IInstitutionService InstitutionService => _institutionService ??= new InstitutionService(Uow, new InstitutionMapper(_mapper));
 }

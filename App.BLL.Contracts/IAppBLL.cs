@@ -1,7 +1,6 @@
 ﻿using App.BLL.Contracts.Services.Competitions;
 using App.BLL.Contracts.Services.Concerts;
 using App.BLL.Contracts.Services.Identity;
-using App.BLL.Contracts.Services.Institutions;
 using App.BLL.Contracts.Services.Library;
 using Base.BLL.Contracts;
 
@@ -20,6 +19,4 @@ public interface IAppBLL : IBaseBLL
     
     ICompetitionService CompetitionService { get; }
     IJuryService JuryService { get; }
-    
-    IInstitutionService InstitutionService { get; }
 }
