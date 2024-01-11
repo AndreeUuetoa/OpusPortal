@@ -29,21 +29,18 @@ public class AppUserAtConcertsController : ControllerBase
 
     // GET: api/Performance/5
     /// <summary>
-    /// Get info about one person performing at a concert.
+    /// Get all concerts user with the specified ID is performing at.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<Domain.Concerts.AppUserAtConcert>> GetAppUsersAtConcert(Guid id)
+    public async Task<ActionResult<AppUserAtConcert>> GetAppUsersAtConcert(Guid id)
     {
-        var appUserAtConcert = await _bll.AppUserAtConcertService.Find(id);
+        var bllAppUsersAtConcert = await _bll.AppUserAtConcertService.AllWithUserId(id);
 
-        if (appUserAtConcert == null)
-        {
-            return NotFound();
-        }
-
-        var res = _mapper.Map(appUserAtConcert);
+        var res = bllAppUsersAtConcert
+            .Select(appUserAtConcert => _mapper.Map(appUserAtConcert))
+            .ToList();
 
         return Ok(res);
     }
@@ -56,7 +53,7 @@ public class AppUserAtConcertsController : ControllerBase
     /// <param name="appUserAtConcert"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<Domain.Concerts.AppUserAtConcert>> PostAppUserAtConcert(AppUserAtConcert appUserAtConcert)
+    public async Task<ActionResult<AppUserAtConcert>> PostAppUserAtConcert(AppUserAtConcert appUserAtConcert)
     {
         var bllAppUserAtConcert = _mapper.Map(appUserAtConcert);
         if (bllAppUserAtConcert == null)
