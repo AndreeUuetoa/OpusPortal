@@ -109,21 +109,26 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
         response.EnsureSuccessStatusCode();
     }
 
-    [Fact(DisplayName = "POST - JWT expired")]
-    public async Task TestJWTExpired()
-    {
-        
-    }
-
-    [Fact(DisplayName = "POST - JWT renewal")]
-    public async Task TestJWTRenewal()
-    {
-        
-    }
-
     [Fact(DisplayName = "POST - JWT logout")]
     public async Task JWTLogout()
     {
-        
+        var adminSigninData = new
+        {
+            Email = "admin@opusportal.com",
+            Password = "Foo.bar1"
+        };
+        var adminSigninDataJson = JsonContent.Create(adminSigninData);
+        var signinResponse = await _client.PostAsync(_signinURL, adminSigninDataJson);
+        var signinResponseObject = await signinResponse.Content.ReadAsStringAsync();
+        var jwtResponse = System.Text.Json.JsonSerializer.Deserialize<JWTResponse>(signinResponseObject);
+        Assert.NotNull(jwtResponse);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.JWT);
+
+        var refreshToken = jwtResponse.RefreshToken;
+        var signoutDataJson = JsonContent.Create(new {refreshToken});
+        var signOutUrl = "/api/v1.0/identity/account/signout";
+        var signoutResponse = await _client.PostAsync(signOutUrl, signoutDataJson);
+
+        signoutResponse.EnsureSuccessStatusCode();
     }
 }
