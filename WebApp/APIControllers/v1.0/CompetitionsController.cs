@@ -87,7 +87,8 @@ public class CompetitionsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutCompetition(Guid id, Competition competition)
     {
-        if (id != competition.Id)
+        var competitionWithId = await _bll.CompetitionService.Find(id);
+        if (competitionWithId == null || competition.Name != competitionWithId.Name)
         {
             return BadRequest();
         }
