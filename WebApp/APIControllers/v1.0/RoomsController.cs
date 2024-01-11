@@ -1,6 +1,8 @@
 using App.BLL.Contracts;
 using Asp.Versioning;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Public.DTO.Mappers.Rooms;
 using Public.DTO.v1._0.Rooms;
@@ -8,11 +10,13 @@ using Public.DTO.v1._0.Rooms;
 namespace WebApp.APIControllers.v1._0;
 
 /// <summary>
-/// Add, edit and remove rooms Muba students could reserve and practice in.
+/// Get, add, edit and remove rooms Muba students could reserve and practice in.
 /// </summary>
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
+[Authorize(Roles = "Admin")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class RoomsController : ControllerBase
 {
     private readonly IAppBLL _bll;

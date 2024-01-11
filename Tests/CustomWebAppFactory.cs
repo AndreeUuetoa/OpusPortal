@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Domain.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ namespace Tests;
 public class CustomWebAppFactory<TStartup> : WebApplicationFactory<TStartup> 
     where TStartup : class
 {
+    private static bool isDbInitialized = false;
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         base.ConfigureWebHost(builder);
@@ -42,6 +45,41 @@ public class CustomWebAppFactory<TStartup> : WebApplicationFactory<TStartup>
                 .GetRequiredService<ILogger<CustomWebAppFactory<TStartup>>>();
 
             db.Database.EnsureCreated();
+
+            try
+            {
+                if (!isDbInitialized)
+                {
+                    isDbInitialized = true;
+                    var adminRole = new AppRole
+                    {
+                        Name = "Admin"
+                    };
+                    var addedAdminRole = db.AppRole.Add(adminRole).Entity;
+                    var studentRole = new AppRole
+                    {
+                        Name = "Student"
+                    };
+                    db.AppRole.Add(studentRole);
+                    var teacherRole = new AppRole
+                    {
+                        Name = "Teacher"
+                    };
+                    db.AppRole.Add(teacherRole);
+                    var adminUser = new AppUser
+                    {
+                        AppRoleId = addedAdminRole.Id,
+                        Email = "admin@opusportal.com",
+                        FirstName = "Admin",
+                        LastName = "Admin",
+                        From = DateTime.UtcNow
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred seeding the database with test data.");
+            }
         });
     }
 }

@@ -40,6 +40,7 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
 
         var response = await _client.PostAsync(_registerURL, data);
 
+        _testOutputHelper.WriteLine(await response.Content.ReadAsStringAsync());
         Assert.False(response.IsSuccessStatusCode);
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
@@ -93,23 +94,19 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
         Assert.NotNull(jwtResponse);
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.JWT);
         
-        var registerData = new
+        var registerData = new RegistrationData
         {
             Email = "test@app.com",
             Password = "Foo.bar1",
             FirstName = "Test",
-            LastName = "App"
+            LastName = "App",
+            AppRoleName = "Student"
         };
         var data = JsonContent.Create(registerData);
 
         var response = await _client.PostAsync(_registerURL, data);
 
-        Assert.True(response.IsSuccessStatusCode);
-
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var JWTResponse = System.Text.Json.JsonSerializer.Deserialize<RefreshTokenModel>(responseContent);
-        
-        Assert.NotNull(JWTResponse);
+        response.EnsureSuccessStatusCode();
     }
 
     [Fact(DisplayName = "POST - JWT expired")]

@@ -94,7 +94,7 @@ public class AccountController : ControllerBase
         {
             return NotFound(new RestApiErrorResponse
             {
-                Status = HttpStatusCode.BadRequest,
+                Status = HttpStatusCode.NotFound,
                 Error = $"App role '{registrationData.AppRoleName}' not found!"
             });
         }

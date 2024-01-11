@@ -1,5 +1,4 @@
 using App.BLL.Contracts;
-using App.DAL.Contracts;
 using Asp.Versioning;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,6 +15,7 @@ namespace WebApp.APIControllers.v1._0;
 [ApiVersion("1.0")]
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
+[Authorize(Roles = "Admin")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class CompetitionsController : ControllerBase
 {

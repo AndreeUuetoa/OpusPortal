@@ -2,18 +2,18 @@
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Public.DTO.v1._0.Identity;
-using Public.DTO.v1._0.Library;
+using Public.DTO.v1._0.Rooms;
 using Xunit.Abstractions;
 
 namespace Tests.IntegrationTests.API.v1._0;
 
-public class BooksHappyPathTest : IClassFixture<CustomWebAppFactory<Program>>
+public class RoomsHappyPathTest : IClassFixture<CustomWebAppFactory<Program>>
 {
     private readonly HttpClient _client;
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly string _signinURL;
 
-    public BooksHappyPathTest(CustomWebAppFactory<Program> factory, ITestOutputHelper testOutputHelper)
+    public RoomsHappyPathTest(CustomWebAppFactory<Program> factory, ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
         _client = factory.CreateClient(new WebApplicationFactoryClientOptions
@@ -23,8 +23,8 @@ public class BooksHappyPathTest : IClassFixture<CustomWebAppFactory<Program>>
         _signinURL = "/api/v1.0/identity/account/signin";
     }
 
-    [Fact(DisplayName = "GET - get all books")]
-    public async Task TestGetAllBooks()
+    [Fact(DisplayName = "GET - get all rooms")]
+    public async Task TestGetAllRooms()
     {
         var adminLoginData = new SignInData
         {
@@ -40,15 +40,15 @@ public class BooksHappyPathTest : IClassFixture<CustomWebAppFactory<Program>>
         var jwtResponse = System.Text.Json.JsonSerializer.Deserialize<JWTResponse>(responseObject);
         Assert.NotNull(jwtResponse);
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.JWT);
-        var response = await _client.GetAsync("api/v1.0/books");
+        var response = await _client.GetAsync("api/v1.0/rooms");
 
         response.EnsureSuccessStatusCode();
         
         _testOutputHelper.WriteLine(await response.Content.ReadAsStringAsync());
     }
 
-    [Fact(DisplayName = "POST - add a book")]
-    public async Task TestAddBook()
+    [Fact(DisplayName = "POST - add a room")]
+    public async Task TestAddRoom()
     {
         var adminLoginData = new SignInData
         {
@@ -65,15 +65,14 @@ public class BooksHappyPathTest : IClassFixture<CustomWebAppFactory<Program>>
         Assert.NotNull(jwtResponse);
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.JWT);
 
-        var bookData = new Book
+        var roomData = new Room
         {
-            Title = "Ujedus ja väärikus",
-            Authors = "Dag Solstad"
+            RoomNumber = "A123"
         };
-        var bookDataJsonContent = JsonContent.Create(bookData);
+        var roomDataJsonContent = JsonContent.Create(roomData);
 
-        var booksURL = "/api/v1.0/books";
-        var postBookResponse = await _client.PostAsync(booksURL, bookDataJsonContent);
+        var roomsURL = "api/v1.0/rooms";
+        var postBookResponse = await _client.PostAsync(roomsURL, roomDataJsonContent);
         postBookResponse.EnsureSuccessStatusCode();
     }
 }

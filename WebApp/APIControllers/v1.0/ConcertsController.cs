@@ -10,11 +10,12 @@ using Public.DTO.v1._0.Concerts;
 namespace WebApp.APIControllers.v1._0;
 
 /// <summary>
-/// Add, edit and remove concerts that the MUBA students may participate in.
+/// Get, add, edit and remove concerts that the MUBA students may participate in.
 /// </summary>
 [ApiVersion("1.0")]
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
+[Authorize(Roles = "Admin")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ConcertsController : ControllerBase
 {

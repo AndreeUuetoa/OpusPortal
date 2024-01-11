@@ -8,6 +8,8 @@ namespace Domain.Identity;
 
 public class AppUser : IdentityUser<Guid>, IDomainEntityId
 {
+    public override string Email { get; set; } = default!;
+
     public Guid AppRoleId { get; set; }
     public AppRole? AppRole { get; set; }
 
