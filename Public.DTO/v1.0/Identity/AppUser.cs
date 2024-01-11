@@ -9,7 +9,6 @@ public class AppUser : DTOEntityId
     public Guid AppRoleId { get; set; }
     public string RoleName { get; set; } = default!;
 
-    public Guid? PersonId { get; set; }
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
 }
