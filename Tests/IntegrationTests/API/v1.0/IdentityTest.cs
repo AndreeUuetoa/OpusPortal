@@ -125,10 +125,10 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.JWT);
 
         var refreshToken = jwtResponse.RefreshToken;
-        var signoutDataJson = JsonContent.Create(new {refreshToken});
-        var signOutUrl = "/api/v1.0/identity/account/signout";
-        var signoutResponse = await _client.PostAsync(signOutUrl, signoutDataJson);
+        var signOutDataJson = JsonContent.Create(new {refreshToken});
+        var signOutURL = "/api/v1.0/identity/account/signout";
+        var signOutResponse = await _client.PostAsync(signOutURL, signOutDataJson);
 
-        signoutResponse.EnsureSuccessStatusCode();
+        signOutResponse.EnsureSuccessStatusCode();
     }
 }
