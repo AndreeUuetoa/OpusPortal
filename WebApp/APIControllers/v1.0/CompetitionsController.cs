@@ -99,7 +99,7 @@ public class CompetitionsController : ControllerBase
             return BadRequest();
         }
 
-        var updatedCompetition = await _bll.CompetitionService.UpdateById(id);
+        var updatedCompetition = await _bll.CompetitionService.Update(bllCompetition);
 
         if (updatedCompetition == null)
         {
