@@ -33,7 +33,6 @@ public class AccountController : ControllerBase
     private readonly RoleManager<AppRole> _roleManager;
     private readonly IConfiguration _configuration;
     private readonly AppDbContext _context;
-    private readonly IAppBLL _bll;
 
     /// <summary>
     /// Create an instance of AccountController.
@@ -43,16 +42,14 @@ public class AccountController : ControllerBase
     /// <param name="roleManager"></param>
     /// <param name="configuration"></param>
     /// <param name="context"></param>
-    /// <param name="bll"></param>
     public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager,
-        RoleManager<AppRole> roleManager, IConfiguration configuration, AppDbContext context, IAppBLL bll)
+        RoleManager<AppRole> roleManager, IConfiguration configuration, AppDbContext context)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _roleManager = roleManager;
         _configuration = configuration;
         _context = context;
-        _bll = bll;
     }
 
     /// <summary>
