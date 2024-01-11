@@ -44,7 +44,8 @@ public class AccountController : ControllerBase
     /// <param name="configuration"></param>
     /// <param name="context"></param>
     /// <param name="bll"></param>
-    public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration configuration, AppDbContext context, IAppBLL bll)
+    public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager,
+        RoleManager<AppRole> roleManager, IConfiguration configuration, AppDbContext context, IAppBLL bll)
     {
         _signInManager = signInManager;
         _userManager = userManager;
@@ -79,7 +80,7 @@ public class AccountController : ControllerBase
                 Error = $"User with email {registrationData.Email} is already registered!"
             });
         }
-        
+
         // Register user
         if (string.IsNullOrEmpty(registrationData.AppRoleName))
         {
@@ -89,6 +90,7 @@ public class AccountController : ControllerBase
                 Error = "Please add a role to the new user."
             });
         }
+
         var newUserRole = await _roleManager.FindByNameAsync(registrationData.AppRoleName);
         if (newUserRole == null)
         {
@@ -133,7 +135,7 @@ public class AccountController : ControllerBase
                 Error = userResult.ToString()
             });
         }
-        
+
         return Created("api/v1.0/Identity/Account/Register", userResult);
     }
 
@@ -174,7 +176,7 @@ public class AccountController : ControllerBase
                 Error = $"Sign-in failed. Error: {result}"
             });
         }
-        
+
         // Search for user refresh tokens from the database
         appUser.AppRefreshTokens = await _context
             .Entry(appUser)
@@ -182,7 +184,7 @@ public class AccountController : ControllerBase
             .Query()
             .Where(t => t.AppUserId == appUser.Id)
             .ToListAsync();
-        
+
         // Remove expired refresh tokens
         foreach (var userRefreshToken in appUser.AppRefreshTokens)
         {
@@ -194,7 +196,7 @@ public class AccountController : ControllerBase
                 _context.AppRefreshTokens.Remove(userRefreshToken);
             }
         }
-        
+
         var refreshToken = new AppRefreshToken
         {
             AppUserId = appUser.Id,
@@ -205,10 +207,10 @@ public class AccountController : ControllerBase
 
         _context.AppRefreshTokens.Add(refreshToken);
         await _context.SaveChangesAsync();
-        
+
         // Get claims-based user
         var claimsPrincipal = await _signInManager.CreateUserPrincipalAsync(appUser);
-        
+
         // Generate JWT
         var JWT = IdentityHelpers.GenerateJWT(
             claimsPrincipal.Claims,
@@ -222,7 +224,15 @@ public class AccountController : ControllerBase
         var responseResult = new JWTResponse
         {
             JWT = JWT,
-            RefreshToken = refreshToken.RefreshToken
+            RefreshToken = refreshToken.RefreshToken,
+            AppUser = new Public.DTO.v1._0.Identity.AppUser
+            {
+                Email = appUser.Email,
+                FirstName = appUser.FirstName,
+                LastName = appUser.LastName,
+                AppRoleId = appUser.AppRoleId,
+                RoleName = appUser.AppRole?.Name ?? "Other"
+            }
         };
 
         return Ok(responseResult);
@@ -290,14 +300,15 @@ public class AccountController : ControllerBase
                 Error = $"User with email {userEmail} was not found!"
             });
         }
-        
+
         // load and compare refresh tokens
-        appUser.AppRefreshTokens = 
+        appUser.AppRefreshTokens =
             await _context.Entry(appUser)
                 .Collection(u => u.AppRefreshTokens!)
                 .Query()
                 .Where(refreshToken =>
-                    (refreshToken.RefreshToken == refreshTokenModel.RefreshToken && refreshToken.ExpirationDateTime > DateTime.UtcNow) ||
+                    (refreshToken.RefreshToken == refreshTokenModel.RefreshToken &&
+                     refreshToken.ExpirationDateTime > DateTime.UtcNow) ||
                     (refreshToken.PreviousRefreshToken == refreshTokenModel.RefreshToken &&
                      refreshToken.PreviousExpirationDateTime > DateTime.UtcNow)
                 )
@@ -312,10 +323,10 @@ public class AccountController : ControllerBase
         {
             return NotFound("More than one valid refresh token found!");
         }
-        
+
         // Get claims-based user
         var claimsPrincipal = await _signInManager.CreateUserPrincipalAsync(appUser);
-        
+
         // Generate JWT
         var JWT = IdentityHelpers.GenerateJWT(
             claimsPrincipal.Claims,
@@ -324,7 +335,7 @@ public class AccountController : ControllerBase
             _configuration.GetValue<string>("JWT:Audience")!,
             _configuration.GetValue<int>("JWT:ExpiresInSeconds")
         );
-        
+
         // Make a new refresh token, but keep the old one still valid for some time
         var refreshToken = appUser.AppRefreshTokens.First();
         if (refreshToken.RefreshToken == refreshTokenModel.RefreshToken)
@@ -333,7 +344,8 @@ public class AccountController : ControllerBase
             refreshToken.PreviousExpirationDateTime = DateTime.UtcNow.AddMinutes(1);
 
             refreshToken.RefreshToken = Guid.NewGuid().ToString();
-            refreshToken.ExpirationDateTime = DateTime.UtcNow.AddDays(_configuration.GetValue<int>("RefreshToken:ExpiresInDays"));
+            refreshToken.ExpirationDateTime =
+                DateTime.UtcNow.AddDays(_configuration.GetValue<int>("RefreshToken:ExpiresInDays"));
 
             await _context.SaveChangesAsync();
         }
@@ -361,7 +373,7 @@ public class AccountController : ControllerBase
     public async Task<ActionResult> ChangePassword(PasswordChangeData passwordChangeData)
     {
         var appUser = await _userManager.FindByEmailAsync(passwordChangeData.Email);
-        
+
         if (appUser == null)
         {
             return NotFound(new RestApiErrorResponse
@@ -427,7 +439,7 @@ public class AccountController : ControllerBase
                 Error = "User is not logged in!"
             });
         }
-        
+
         await _context.Entry(appUser)
             .Collection(u => u.AppRefreshTokens!)
             .Query()
@@ -443,7 +455,7 @@ public class AccountController : ControllerBase
         }
 
         var deleteCount = await _context.SaveChangesAsync();
-        
-        return Ok(new {TokenDeleteCount = deleteCount});
+
+        return Ok(new { TokenDeleteCount = deleteCount });
     }
 }
