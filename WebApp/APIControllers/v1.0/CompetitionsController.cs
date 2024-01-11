@@ -19,17 +19,16 @@ namespace WebApp.APIControllers.v1._0;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class CompetitionsController : ControllerBase
 {
-    private readonly IAppUOW _uow;
     private readonly IAppBLL _bll;
     private readonly CompetitionMapper _mapper;
 
     /// <summary>
-    /// 
+    /// Constructor for competitions controller.
     /// </summary>
-    /// <param name="uow"></param>
-    public CompetitionsController(IAppUOW uow, IAppBLL bll, IMapper autoMapper)
+    /// <param name="bll"></param>
+    /// <param name="autoMapper"></param>
+    public CompetitionsController(IAppBLL bll, IMapper autoMapper)
     {
-        _uow = uow;
         _bll = bll;
         _mapper = new CompetitionMapper(autoMapper);
     }
