@@ -4,7 +4,7 @@ namespace Base.Domain;
 
 public abstract class DomainEntityId : DomainEntityId<Guid>, IDomainEntityId
 {
-    public override Guid Id { get; set; } = Guid.NewGuid();
+    
 }
 
 public abstract class DomainEntityId<TKey> : IDomainEntityId<TKey>
