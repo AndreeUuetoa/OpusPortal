@@ -227,7 +227,6 @@ public class AccountController : ControllerBase
             RefreshToken = refreshToken.RefreshToken,
             AppUser = new Public.DTO.v1._0.Identity.AppUser
             {
-                Email = appUser.Email,
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
                 AppRoleId = appUser.AppRoleId,
