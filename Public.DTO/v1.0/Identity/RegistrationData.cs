@@ -14,5 +14,5 @@ public class RegistrationData : DTOEntityId
     [StringLength(128, MinimumLength = 1, ErrorMessage = "Incorrect length")]
     public string LastName { get; set; } = default!;
 
-    public string? AppRoleName { get; set; }
+    public string AppRoleName { get; set; } = default!;
 }
