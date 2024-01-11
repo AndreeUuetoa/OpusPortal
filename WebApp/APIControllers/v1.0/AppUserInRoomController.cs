@@ -1,6 +1,5 @@
 using App.BLL.Contracts;
 using AutoMapper;
-using DAL;
 using Microsoft.AspNetCore.Mvc;
 using Public.DTO.Mappers.Rooms;
 using Public.DTO.v1._0.Rooms;
@@ -14,19 +13,16 @@ namespace WebApp.APIControllers.v1._0;
 [ApiController]
 public class AppUserInRoomController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly IAppBLL _bll;
     private readonly AppUserInRoomMapper _mapper;
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="context"></param>
     /// <param name="bll"></param>
     /// <param name="autoMapper"></param>
-    public AppUserInRoomController(AppDbContext context, IAppBLL bll, IMapper autoMapper)
+    public AppUserInRoomController(IAppBLL bll, IMapper autoMapper)
     {
-        _context = context;
         _bll = bll;
         _mapper = new AppUserInRoomMapper(autoMapper);
     }
