@@ -25,8 +25,8 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
         _signinURL = "/api/v1.0/identity/account/signin";
     }
 
-    [Fact(DisplayName = "POST - register new user failure, only admin")]
-    public async Task TestRegisterNewUserFailed()
+    [Fact(DisplayName = "POST - register new user fails, only admin allowed")]
+    public async Task TestRegisterNewUserFails()
     {
         var registerData = new
         {
@@ -45,8 +45,8 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
 
-    [Fact(DisplayName = "POST - login user")]
-    public async Task TestLoginUser()
+    [Fact(DisplayName = "POST - user signs in")]
+    public async Task TestUserSignIn()
     {
         var adminLoginData = new
         {
@@ -61,8 +61,8 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
         response.EnsureSuccessStatusCode();
     }
 
-    [Fact(DisplayName = "POST - login failed")]
-    public async Task TestLoginFailed()
+    [Fact(DisplayName = "POST - sign-in fails, incorrect credentials")]
+    public async Task TestUserSignInFails()
     {
         var adminLoginData = new
         {
@@ -109,8 +109,8 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
         response.EnsureSuccessStatusCode();
     }
 
-    [Fact(DisplayName = "POST - JWT logout")]
-    public async Task JWTLogout()
+    [Fact(DisplayName = "POST - user signs out")]
+    public async Task TestUserSignOut()
     {
         var adminSigninData = new
         {
