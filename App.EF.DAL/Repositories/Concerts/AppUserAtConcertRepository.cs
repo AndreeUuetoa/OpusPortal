@@ -17,7 +17,7 @@ public class AppUserAtConcertRepository : EFBaseRepository<AppUserAtConcert, App
         return await RepositoryDbSet
             .Include(i => i.Concert)
             .Include(i => i.AppUser)
-            .Where(appUser => appUser.AppUserId == id)
+            .Where(appUserAtConcert => appUserAtConcert.AppUserId == id)
             .ToListAsync();
     }
 }
