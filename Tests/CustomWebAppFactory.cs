@@ -11,7 +11,7 @@ namespace Tests;
 public class CustomWebAppFactory<TStartup> : WebApplicationFactory<TStartup> 
     where TStartup : class
 {
-    private static bool isDbInitialized = false;
+    private static bool isDbInitialized;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -48,33 +48,33 @@ public class CustomWebAppFactory<TStartup> : WebApplicationFactory<TStartup>
 
             try
             {
-                if (!isDbInitialized)
+                if (isDbInitialized) return;
+                isDbInitialized = true;
+                var adminRole = new AppRole
                 {
-                    isDbInitialized = true;
-                    var adminRole = new AppRole
-                    {
-                        Name = "Admin"
-                    };
-                    var addedAdminRole = db.AppRole.Add(adminRole).Entity;
-                    var studentRole = new AppRole
-                    {
-                        Name = "Student"
-                    };
-                    db.AppRole.Add(studentRole);
-                    var teacherRole = new AppRole
-                    {
-                        Name = "Teacher"
-                    };
-                    db.AppRole.Add(teacherRole);
-                    var adminUser = new AppUser
-                    {
-                        AppRoleId = addedAdminRole.Id,
-                        Email = "admin@opusportal.com",
-                        FirstName = "Admin",
-                        LastName = "Admin",
-                        From = DateTime.UtcNow
-                    };
-                }
+                    Name = "Admin"
+                };
+                var addedAdminRole = db.AppRole.Add(adminRole).Entity;
+                var studentRole = new AppRole
+                {
+                    Name = "Student"
+                };
+                db.AppRole.Add(studentRole);
+                var teacherRole = new AppRole
+                {
+                    Name = "Teacher"
+                };
+                db.AppRole.Add(teacherRole);
+                var adminUser = new AppUser
+                {
+                    AppRoleId = addedAdminRole.Id,
+                    Email = "admin@opusportal.com",
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    From = DateTime.UtcNow
+                };
+                db.AppUser.Add(adminUser);
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
