@@ -1,4 +1,5 @@
 using App.BLL.Contracts;
+using Asp.Versioning;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Public.DTO.Mappers.Concerts;
@@ -9,8 +10,9 @@ namespace WebApp.APIControllers.v1._0;
 /// <summary>
 /// 
 /// </summary>
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]/")]
 [ApiController]
+[ApiVersion("1.0")]
 public class AppUserAtConcertsController : ControllerBase
 {
     private readonly IAppBLL _bll;
@@ -26,7 +28,7 @@ public class AppUserAtConcertsController : ControllerBase
         _bll = bll;
         _mapper = new AppUserAtConcertMapper(autoMapper);
     }
-
+    
     // GET: api/Performance/5
     /// <summary>
     /// Get all concerts user with the specified ID is performing at.
@@ -35,6 +37,28 @@ public class AppUserAtConcertsController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<ActionResult<AppUserAtConcert>> GetAppUsersAtConcert(Guid id)
+    {
+        var bllAppUserAtConcert = await _bll.AppUserAtConcertService.Find(id);
+
+        if (bllAppUserAtConcert == null)
+        {
+            return NotFound();
+        }
+
+        var publicAppUserAtConcert = _mapper.Map(bllAppUserAtConcert);
+
+        return Ok(publicAppUserAtConcert);
+    }
+
+    // GET: api/Performance/5
+    /// <summary>
+    /// Get all concerts user with the specified ID is performing at.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("usersConcerts/{id}")]
+    [Route("api/")]
+    public async Task<ActionResult<IEnumerable<AppUserAtConcert>>> GetAppUsersAtConcertForUserWithId(Guid id)
     {
         var bllAppUsersAtConcert = await _bll.AppUserAtConcertService.AllWithUserId(id);
 
