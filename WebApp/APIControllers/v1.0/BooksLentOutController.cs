@@ -39,15 +39,16 @@ public class BooksLentOutController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<BookLentOut>>> GetBooksLentOut(Guid id)
+    [Route("api/v{version:apiVersion}/usersBooks")]
+    public async Task<ActionResult<IEnumerable<BookLentOut>>> GetBooksLentOutForUserWithId(Guid id)
     {
         var bllBooksLentOutWithUserId = await _bll.BookLentOutService.AllWithUserId(id);
 
-        var res = bllBooksLentOutWithUserId
+        var publicBooksLentOutForUser = bllBooksLentOutWithUserId
             .Select(book => _mapper.Map(book))
             .ToList();
 
-        return Ok(res);
+        return Ok(publicBooksLentOutForUser);
     }
 
     // POST: api/BooksLentOut
