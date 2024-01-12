@@ -1,4 +1,5 @@
 using App.BLL.Contracts;
+using Asp.Versioning;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Public.DTO.Mappers.Rooms;
@@ -9,8 +10,9 @@ namespace WebApp.APIControllers.v1._0;
 /// <summary>
 /// Reserve rooms for MUBA students.
 /// </summary>
-[Route("api/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]/")]
 [ApiController]
+[ApiVersion("1.0")]
 public class AppUserInRoomController : ControllerBase
 {
     private readonly IAppBLL _bll;
@@ -34,7 +36,29 @@ public class AppUserInRoomController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<AppUserInRoom>> GetAppUserInRooms(Guid id)
+    public async Task<ActionResult<AppUserInRoom>> GetAppUserInRoom(Guid id)
+    {
+        var bllAppUserInRoom = await _bll.AppUserInRoomService.Find(id);
+
+        if (bllAppUserInRoom == null)
+        {
+            return NotFound();
+        }
+
+        var publicAppUserInRoom = _mapper.Map(bllAppUserInRoom);
+
+        return Ok(publicAppUserInRoom);
+    }
+    
+    // GET: api/AppUserInRoom/5
+    /// <summary>
+    /// Get reserved rooms for user with the specified ID.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("usersRooms/{id}")]
+    [Route("api/")]
+    public async Task<ActionResult<AppUserInRoom>> GetAppUserInRoomsWithUserId(Guid id)
     {
         var bllAppUsersInRoomWithUserId = await _bll.AppUserInRoomService.AllWithUserId(id);
 
@@ -68,7 +92,7 @@ public class AppUserInRoomController : ControllerBase
             return BadRequest();
         }
 
-        return CreatedAtAction(nameof(GetAppUserInRooms), new { id = reservedRoom.Id }, reservedRoom);
+        return CreatedAtAction(nameof(GetAppUserInRoom), new { id = reservedRoom.Id }, reservedRoom);
     }
 
     // PUT: api/AppUserInRoom/5
@@ -99,7 +123,7 @@ public class AppUserInRoomController : ControllerBase
             return BadRequest();
         }
 
-        return CreatedAtAction(nameof(GetAppUserInRooms), new {id}, updatedAppUserInRoom);
+        return CreatedAtAction(nameof(GetAppUserInRoom), new {id}, updatedAppUserInRoom);
     }
 
     // DELETE: api/AppUserInRoom/5
