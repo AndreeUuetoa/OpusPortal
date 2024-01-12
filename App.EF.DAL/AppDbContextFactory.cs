@@ -20,7 +20,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 
         var options = optionsBuilder
             .UseLoggerFactory(MyLoggerFactory)
-            .UseNpgsql("")
+            .UseNpgsql("Host=localhost:5445;Database=opusportal-db;User ID=postgres;Password=postgres")
             .Options;
 
         return new AppDbContext(options);
