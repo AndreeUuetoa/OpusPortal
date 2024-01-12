@@ -90,6 +90,7 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
         var responseObject = await adminLoginResponse.Content.ReadAsStringAsync();
         Assert.NotNull(responseObject);
         _testOutputHelper.WriteLine(responseObject);
+        adminLoginResponse.EnsureSuccessStatusCode();
         var jwtResponse = System.Text.Json.JsonSerializer.Deserialize<JWTResponse>(responseObject);
         Assert.NotNull(jwtResponse);
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtResponse.JWT);
@@ -119,6 +120,7 @@ public class IdentityTest : IClassFixture<CustomWebAppFactory<Program>>
         };
         var adminSigninDataJson = JsonContent.Create(adminSigninData);
         var signinResponse = await _client.PostAsync(_signinURL, adminSigninDataJson);
+        signinResponse.EnsureSuccessStatusCode();
         var signinResponseObject = await signinResponse.Content.ReadAsStringAsync();
         var jwtResponse = System.Text.Json.JsonSerializer.Deserialize<JWTResponse>(signinResponseObject);
         Assert.NotNull(jwtResponse);
