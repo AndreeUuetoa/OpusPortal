@@ -15,7 +15,7 @@ namespace WebApp.APIControllers.v1._0;
 /// </summary>
 [ApiVersion("1.0")]
 [ApiController]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]/")]
 public class BooksLentOutController : ControllerBase
 {
     private readonly IAppBLL _bll;
@@ -58,8 +58,8 @@ public class BooksLentOutController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpGet("{id}")]
-    [Route("api/v{version:apiVersion}/usersBooks")]
+    [HttpGet("usersBooks/{id}")]
+    [Route("api/v{version:apiVersion}")]
     public async Task<ActionResult<IEnumerable<BookLentOut>>> GetBooksLentOutForUserWithId(Guid id)
     {
         var bllBooksLentOutWithUserId = await _bll.BookLentOutService.AllWithUserId(id);
