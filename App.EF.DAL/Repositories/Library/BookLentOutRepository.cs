@@ -1,4 +1,3 @@
-using App.DAL.Contracts.Repositories;
 using App.DAL.Contracts.Repositories.Library;
 using Base;
 using Domain.Library;
@@ -19,8 +18,7 @@ public class BookLentOutRepository: EFBaseRepository<BookLentOut, AppDbContext>,
         return await RepositoryDbSet
             .Include(bookLentOut => bookLentOut.Book)
             .Include(bookLentOut => bookLentOut.AppUser)
-            .OrderBy(bookLentOut => bookLentOut.Book!.Title)
-            .ThenBy(bookLentOut => bookLentOut.Book!.Authors)
+            .OrderBy(bookLentOut => bookLentOut.ReturnAt)
             .ToListAsync();
     }
 
@@ -30,8 +28,7 @@ public class BookLentOutRepository: EFBaseRepository<BookLentOut, AppDbContext>,
             .Include(bookLentOut => bookLentOut.Book)
             .Include(bookLentOut => bookLentOut.AppUser)
             .Where(b => b.AppUserId == id)
-            .OrderBy(bookLentOut => bookLentOut.Book!.Title)
-            .ThenBy(bookLentOut => bookLentOut.Book!.Authors)
+            .OrderBy(bookLentOut => bookLentOut.ReturnAt)
             .ToListAsync();
     }
 
