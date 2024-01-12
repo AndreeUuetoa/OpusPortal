@@ -34,6 +34,26 @@ public class BooksLentOutController : ControllerBase
 
     // GET: api/BooksLentOut/5
     /// <summary>
+    /// Get book lent out with the specified ID.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}")]
+    public async Task<ActionResult<IEnumerable<BookLentOut>>> GetBookLentOut(Guid id)
+    {
+        var bllBookLentOut = await _bll.BookLentOutService.Find(id);
+
+        if (bllBookLentOut == null)
+        {
+            return NotFound();
+        }
+
+        var publicBookLentOut = _mapper.Map(bllBookLentOut);
+
+        return Ok(publicBookLentOut);
+    }
+
+    /// <summary>
     /// Get books lent out by user with the specified ID.
     /// </summary>
     /// <param name="id"></param>
@@ -74,7 +94,7 @@ public class BooksLentOutController : ControllerBase
             return BadRequest();
         }
 
-        return CreatedAtAction("GetBooksLentOut", new { id = bookLentOut.Id }, bookLentOut);
+        return CreatedAtAction("GetBookLentOut", new { id = bookLentOut.Id }, bookLentOut);
     }
 
     // PUT: api/BooksLentOut/5
@@ -107,7 +127,7 @@ public class BooksLentOutController : ControllerBase
             return BadRequest();
         }
 
-        return CreatedAtAction("GetBooksLentOut", new { id }, updatedBookLentOut);
+        return CreatedAtAction("GetBookLentOut", new { id }, updatedBookLentOut);
     }
 
     // DELETE: api/BooksLentOut/5
