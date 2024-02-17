@@ -15,4 +15,5 @@ public class RegistrationData : DTOEntityId
     public string LastName { get; set; } = default!;
 
     public string AppRoleName { get; set; } = default!;
+    public string? MajorTeacher { get; set; }
 }
