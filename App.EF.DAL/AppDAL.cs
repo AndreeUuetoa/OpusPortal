@@ -11,9 +11,9 @@ using DAL.Repositories.Identity;
 using DAL.Repositories.Library;
 using DAL.Repositories.Rooms;
 
-namespace DAL.UnitOfWork;
+namespace DAL;
 
-public class AppUOW : EFBaseUOW<AppDbContext>, IAppUOW
+public class AppDAL : EfBaseDAL<AppDbContext>, IAppDAL
 {
     private IAppRoleRepository? _appRoleRepository;
     private IAppUserRepository? _appUserRepository;
@@ -38,7 +38,7 @@ public class AppUOW : EFBaseUOW<AppDbContext>, IAppUOW
 
     public IAppUserInRoomRepository AppUserInRoomRepository => _appUserInRoomRepository ??= new AppUserInRoomRepository(UowDbContext);
 
-    public AppUOW(AppDbContext context) : base(context)
+    public AppDAL(AppDbContext context) : base(context)
     {
     }
 }

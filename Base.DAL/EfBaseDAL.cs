@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Base;
 
-public abstract class EFBaseUOW<TDbContext> : IBaseUOW
+public abstract class EfBaseDAL<TDbContext> : IBaseDAL
     where TDbContext : DbContext
 {
     protected readonly TDbContext UowDbContext;
 
-    protected EFBaseUOW(TDbContext context)
+    protected EfBaseDAL(TDbContext context)
     {
         UowDbContext = context;
     }

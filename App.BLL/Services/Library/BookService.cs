@@ -11,10 +11,10 @@ namespace App.BLL.Services.Library;
 
 public class BookService : BaseEntityService<DomainBook, BLLBook, IBookRepository>, IBookService
 {
-    protected readonly IAppUOW Uow;
+    protected readonly IAppDAL Dal;
 
-    public BookService(IAppUOW uow, IMapper<DomainBook, BLLBook> mapper) : base(uow.BookRepository, mapper)
+    public BookService(IAppDAL dal, IMapper<DomainBook, BLLBook> mapper) : base(dal.BookRepository, mapper)
     {
-        Uow = uow;
+        Dal = dal;
     }
 }

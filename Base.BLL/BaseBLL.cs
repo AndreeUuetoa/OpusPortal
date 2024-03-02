@@ -4,17 +4,17 @@ using Base.DAL.Contracts;
 namespace Base.BLL;
 
 public abstract class BaseBLL<TUOW> : IBaseBLL
-    where TUOW: IBaseUOW
+    where TUOW: IBaseDAL
 {
-    protected readonly TUOW Uow;
+    protected readonly TUOW Dal;
 
-    protected BaseBLL(TUOW uow)
+    protected BaseBLL(TUOW dal)
     {
-        Uow = uow;
+        Dal = dal;
     }
 
     public virtual async Task<int> SaveChanges()
     {
-        return await Uow.SaveChanges();
+        return await Dal.SaveChanges();
     }
 }

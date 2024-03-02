@@ -10,15 +10,15 @@ namespace App.BLL.Services.Rooms;
 
 public class AppUserInRoomService : BaseEntityService<DomainAppUserInRoom, BLLAppUserInRoom, IAppUserInRoomRepository>, IAppUserInRoomService
 {
-    private readonly IAppUOW _uow;
+    private readonly IAppDAL _dal;
     
-    public AppUserInRoomService(IAppUOW uow, IMapper<DomainAppUserInRoom, BLLAppUserInRoom> mapper) : base(uow.AppUserInRoomRepository, mapper)
+    public AppUserInRoomService(IAppDAL dal, IMapper<DomainAppUserInRoom, BLLAppUserInRoom> mapper) : base(dal.AppUserInRoomRepository, mapper)
     {
-        _uow = uow;
+        _dal = dal;
     }
 
     public async Task<IEnumerable<BLLAppUserInRoom>> AllWithUserId(Guid id)
     {
-        return (await _uow.AppUserInRoomRepository.AllWithUserId(id)).Select(e => Mapper.Map(e));
+        return (await _dal.AppUserInRoomRepository.AllWithUserId(id)).Select(e => Mapper.Map(e));
     }
 }

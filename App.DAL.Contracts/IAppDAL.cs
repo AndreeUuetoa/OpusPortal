@@ -7,7 +7,7 @@ using Base.DAL.Contracts;
 
 namespace App.DAL.Contracts;
 
-public interface IAppUOW : IBaseUOW
+public interface IAppDAL : IBaseDAL
 {
     public IAppRoleRepository AppRoleRepository { get; }
     public IAppUserRepository AppUserRepository { get; }

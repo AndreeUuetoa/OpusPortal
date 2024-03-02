@@ -11,10 +11,10 @@ namespace App.BLL.Services.Identity;
 
 public class AppUserService : BaseIdentityService<DomainAppUser, BLLAppUser, IAppUserRepository>, IAppUserService
 {
-    private readonly IAppUOW Uow;
+    private readonly IAppDAL _dal;
     
-    public AppUserService(IAppUOW uow, IMapper<DomainAppUser, BLLAppUser> mapper) : base(uow.AppUserRepository, mapper)
+    public AppUserService(IAppDAL dal, IMapper<DomainAppUser, BLLAppUser> mapper) : base(dal.AppUserRepository, mapper)
     {
-        Uow = uow;
+        _dal = dal;
     }
 }

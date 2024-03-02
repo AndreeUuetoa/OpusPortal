@@ -10,10 +10,10 @@ namespace App.BLL.Services.Rooms;
 
 public class RoomService : BaseEntityService<DomainRoom, BLLRoom, IRoomRepository>, IRoomService
 {
-    private readonly IAppUOW _uow;
+    private readonly IAppDAL _dal;
     
-    public RoomService(IAppUOW uow, IMapper<DomainRoom, BLLRoom> mapper) : base(uow.RoomRepository, mapper)
+    public RoomService(IAppDAL dal, IMapper<DomainRoom, BLLRoom> mapper) : base(dal.RoomRepository, mapper)
     {
-        _uow = uow;
+        _dal = dal;
     }
 }

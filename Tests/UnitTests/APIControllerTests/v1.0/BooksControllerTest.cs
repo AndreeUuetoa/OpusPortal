@@ -2,7 +2,6 @@
 using App.BLL.Contracts;
 using AutoMapper;
 using DAL;
-using DAL.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Public.DTO;
@@ -31,7 +30,7 @@ public class BooksControllerTest
         ctx.Database.EnsureDeleted();
         ctx.Database.EnsureCreated();
 
-        var uow = new AppUOW(ctx);
+        var uow = new AppDAL(ctx);
 
         _mapper = new MapperConfiguration(mc => mc.AddProfile(new AutoMapperConfig())).CreateMapper();
 

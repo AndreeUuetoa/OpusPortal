@@ -20,7 +20,7 @@ using Base.BLL;
 
 namespace App.BLL;
 
-public class AppBLL : BaseBLL<IAppUOW>, IAppBLL
+public class AppBLL : BaseBLL<IAppDAL>, IAppBLL
 {
     private readonly IMapper _mapper;
 
@@ -39,22 +39,22 @@ public class AppBLL : BaseBLL<IAppUOW>, IAppBLL
     private IAppUserInRoomService? _appUserInRoomService;
     private IRoomService? _roomService;
 
-    public AppBLL(IAppUOW uow, IMapper mapper) : base(uow)
+    public AppBLL(IAppDAL dal, IMapper mapper) : base(dal)
     {
         _mapper = mapper;
     }
 
-    public IAppUserService AppUserService => _appUserService ??= new AppUserService(Uow, new AppUserMapper(_mapper));
-    public IAppRoleService AppRoleService => _appRoleService ??= new AppRoleService(Uow, new AppRoleMapper(_mapper));
-    public IBookService BookService => _bookService ??= new BookService(Uow, new BookMapper(_mapper));
-    public IBookLentOutService BookLentOutService => _bookLentOutService ??= new BookLentOutService(Uow, new BookLentOutMapper(_mapper));
+    public IAppUserService AppUserService => _appUserService ??= new AppUserService(Dal, new AppUserMapper(_mapper));
+    public IAppRoleService AppRoleService => _appRoleService ??= new AppRoleService(Dal, new AppRoleMapper(_mapper));
+    public IBookService BookService => _bookService ??= new BookService(Dal, new BookMapper(_mapper));
+    public IBookLentOutService BookLentOutService => _bookLentOutService ??= new BookLentOutService(Dal, new BookLentOutMapper(_mapper));
 
-    public IAppUserAtConcertService AppUserAtConcertService => _appUserAtConcertService ??= new AppUserAtConcertService(Uow, new AppUserAtConcertMapper(_mapper));
-    public IConcertService ConcertService => _concertService ??= new ConcertService(Uow, new ConcertMapper(_mapper));
+    public IAppUserAtConcertService AppUserAtConcertService => _appUserAtConcertService ??= new AppUserAtConcertService(Dal, new AppUserAtConcertMapper(_mapper));
+    public IConcertService ConcertService => _concertService ??= new ConcertService(Dal, new ConcertMapper(_mapper));
     
-    public ICompetitionService CompetitionService => _competitionService ??= new CompetitionService(Uow, new CompetitionMapper(_mapper));
-    public IJuryService JuryService => _juryService ??= new JuryService(Uow, new JuryMemberMapper(_mapper));
+    public ICompetitionService CompetitionService => _competitionService ??= new CompetitionService(Dal, new CompetitionMapper(_mapper));
+    public IJuryService JuryService => _juryService ??= new JuryService(Dal, new JuryMemberMapper(_mapper));
 
-    public IAppUserInRoomService AppUserInRoomService => _appUserInRoomService ??= new AppUserInRoomService(Uow, new AppUserInRoomMapper(_mapper));
-    public IRoomService RoomService => _roomService ??= new RoomService(Uow, new RoomMapper(_mapper));
+    public IAppUserInRoomService AppUserInRoomService => _appUserInRoomService ??= new AppUserInRoomService(Dal, new AppUserInRoomMapper(_mapper));
+    public IRoomService RoomService => _roomService ??= new RoomService(Dal, new RoomMapper(_mapper));
 }

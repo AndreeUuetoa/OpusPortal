@@ -10,15 +10,15 @@ namespace App.BLL.Services.Concerts;
 
 public class AppUserAtConcertService : BaseEntityService<DomainAppUserAtConcert, BLLAppUserAtConcert, IAppUserAtConcertRepository>, IAppUserAtConcertService
 {
-    private readonly IAppUOW _uow;
+    private readonly IAppDAL _dal;
     
-    public AppUserAtConcertService(IAppUOW uow, IMapper<DomainAppUserAtConcert, BLLAppUserAtConcert> mapper) : base(uow.AppUserAtConcertRepository, mapper)
+    public AppUserAtConcertService(IAppDAL dal, IMapper<DomainAppUserAtConcert, BLLAppUserAtConcert> mapper) : base(dal.AppUserAtConcertRepository, mapper)
     {
-        _uow = uow;
+        _dal = dal;
     }
     
     public async Task<IEnumerable<BLLAppUserAtConcert>> AllWithUserId(Guid id)
     {
-        return (await _uow.AppUserAtConcertRepository.AllWithUserId(id)).Select(e => Mapper.Map(e));
+        return (await _dal.AppUserAtConcertRepository.AllWithUserId(id)).Select(e => Mapper.Map(e));
     }
 }

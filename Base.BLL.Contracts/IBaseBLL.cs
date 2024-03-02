@@ -2,7 +2,7 @@
 
 namespace Base.BLL.Contracts;
 
-public interface IBaseBLL : IBaseUOW
+public interface IBaseBLL : IBaseDAL
 {
     
 }

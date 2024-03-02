@@ -10,15 +10,15 @@ namespace App.BLL.Services.Library;
 
 public class BookLentOutService : BaseEntityService<DomainBookLentOut, BLLBookLentOut, IBookLentOutRepository>, IBookLentOutService
 {
-    private readonly IAppUOW _uow;
+    private readonly IAppDAL _dal;
 
-    public BookLentOutService(IAppUOW uow, IMapper<DomainBookLentOut, BLLBookLentOut> mapper) : base(uow.BookLentOutRepository, mapper)
+    public BookLentOutService(IAppDAL dal, IMapper<DomainBookLentOut, BLLBookLentOut> mapper) : base(dal.BookLentOutRepository, mapper)
     {
-        _uow = uow;
+        _dal = dal;
     }
 
     public async Task<IEnumerable<BLLBookLentOut>> AllWithUserId(Guid id)
     {
-        return (await _uow.BookLentOutRepository.AllWithUserId(id)).Select(e => Mapper.Map(e));
+        return (await _dal.BookLentOutRepository.AllWithUserId(id)).Select(e => Mapper.Map(e));
     }
 }

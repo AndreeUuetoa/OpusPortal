@@ -10,10 +10,10 @@ namespace App.BLL.Services.Concerts;
 
 public class ConcertService : BaseEntityService<DomainConcert, BLLConcert, IConcertRepository>, IConcertService
 {
-    private readonly IAppUOW _uow;
+    private readonly IAppDAL _dal;
     
-    public ConcertService(IAppUOW uow, IMapper<DomainConcert, BLLConcert> mapper) : base(uow.ConcertRepository, mapper)
+    public ConcertService(IAppDAL dal, IMapper<DomainConcert, BLLConcert> mapper) : base(dal.ConcertRepository, mapper)
     {
-        _uow = uow;
+        _dal = dal;
     }
 }

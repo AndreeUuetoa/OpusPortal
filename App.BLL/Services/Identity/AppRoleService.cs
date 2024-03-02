@@ -10,10 +10,10 @@ namespace App.BLL.Services.Identity;
 
 public class AppRoleService : BaseIdentityService<DomainAppRole, BLLAppRole, IAppRoleRepository>, IAppRoleService
 {
-    private readonly IAppUOW _uow;
+    private readonly IAppDAL _dal;
     
-    public AppRoleService(IAppUOW uow, IMapper<DomainAppRole, BLLAppRole> mapper) : base(uow.AppRoleRepository, mapper)
+    public AppRoleService(IAppDAL dal, IMapper<DomainAppRole, BLLAppRole> mapper) : base(dal.AppRoleRepository, mapper)
     {
-        _uow = uow;
+        _dal = dal;
     }
 }

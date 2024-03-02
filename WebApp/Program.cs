@@ -6,7 +6,6 @@ using App.DAL.Contracts;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using DAL;
-using DAL.UnitOfWork;
 using Domain.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +28,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 // Register UOW with a scoped lifecycle.
-builder.Services.AddScoped<IAppUOW, AppUOW>();
+builder.Services.AddScoped<IAppDAL, AppDAL>();
 
 // Register BLL with a scoped lifecycle.
 builder.Services.AddScoped<IAppBLL, AppBLL>();

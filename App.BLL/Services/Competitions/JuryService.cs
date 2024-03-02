@@ -10,10 +10,10 @@ namespace App.BLL.Services.Competitions;
 
 public class JuryService : BaseEntityService<DomainJuryMember, BLLJuryMember, IJuryMemberRepository>, IJuryService
 {
-    private readonly IAppUOW _uow;
+    private readonly IAppDAL _dal;
     
-    public JuryService(IAppUOW uow, IMapper<DomainJuryMember, BLLJuryMember> mapper) : base(uow.JuryMemberRepository, mapper)
+    public JuryService(IAppDAL dal, IMapper<DomainJuryMember, BLLJuryMember> mapper) : base(dal.JuryMemberRepository, mapper)
     {
-        _uow = uow;
+        _dal = dal;
     }
 }

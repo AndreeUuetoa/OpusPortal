@@ -10,10 +10,10 @@ namespace App.BLL.Services.Competitions;
 
 public class CompetitionService : BaseEntityService<DomainCompetition, BLLCompetition, ICompetitionRepository>, ICompetitionService
 {
-    private readonly IAppUOW _uow;
+    private readonly IAppDAL _dal;
     
-    public CompetitionService(IAppUOW uow, IMapper<DomainCompetition, BLLCompetition> mapper) : base(uow.CompetitionRepository, mapper)
+    public CompetitionService(IAppDAL dal, IMapper<DomainCompetition, BLLCompetition> mapper) : base(dal.CompetitionRepository, mapper)
     {
-        _uow = uow;
+        _dal = dal;
     }
 }

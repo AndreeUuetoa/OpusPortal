@@ -1,6 +1,6 @@
 ﻿namespace Base.DAL.Contracts;
 
-public interface IBaseUOW
+public interface IBaseDAL
 {
     Task<int> SaveChanges();
 }
