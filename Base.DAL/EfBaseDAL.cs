@@ -6,15 +6,15 @@ namespace Base;
 public abstract class EfBaseDAL<TDbContext> : IBaseDAL
     where TDbContext : DbContext
 {
-    protected readonly TDbContext UowDbContext;
+    protected readonly TDbContext DALDbContext;
 
     protected EfBaseDAL(TDbContext context)
     {
-        UowDbContext = context;
+        DALDbContext = context;
     }
     
     public virtual async Task<int> SaveChanges()
     {
-        return await UowDbContext.SaveChangesAsync();
+        return await DALDbContext.SaveChangesAsync();
     }
 }
