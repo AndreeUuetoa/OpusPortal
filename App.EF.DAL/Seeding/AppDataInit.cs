@@ -60,6 +60,7 @@ public static class AppDataInit
         user = new AppUser
         {
             Id = userData.id,
+            UserName = userData.userName,
             Email = userData.email,
             EmailConfirmed = true,
             FirstName = userData.userName,
@@ -71,6 +72,10 @@ public static class AppDataInit
         var result = await userManager.CreateAsync(user, userData.password);
         if (!result.Succeeded)
         {
+            foreach (var identityError in result.Errors)
+            {
+                Console.WriteLine(identityError.Description);
+            }
             throw new ApplicationException("Cannot seed admin user.");
         }
     }
